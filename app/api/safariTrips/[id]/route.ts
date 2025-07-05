@@ -3,34 +3,34 @@ import connectDB from '@/lib/mongodb';
 import SafariTrip from '@/models/SafariTrip';
 
 // GET /api/safariTrips/[id] - Get a specific safari trip
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  try {
-    await connectDB();
-    const safariTrip = await SafariTrip.findById(params.id);
+// export async function GET(
+//   request: NextRequest,
+//   { params }: { params: { id: string } }
+// ) {
+//   try {
+//     await connectDB();
+//     const safariTrip = await SafariTrip.findById(params.id);
     
-    if (!safariTrip) {
-      return NextResponse.json({
-        success: false,
-        message: 'Safari trip not found'
-      }, { status: 404 });
-    }
+//     if (!safariTrip) {
+//       return NextResponse.json({
+//         success: false,
+//         message: 'Safari trip not found'
+//       }, { status: 404 });
+//     }
     
-    return NextResponse.json({
-      success: true,
-      data: safariTrip
-    }, { status: 200 });
-  } catch (error) {
-    console.error('Error fetching safari trip:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Failed to fetch safari trip',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
-  }
-}
+//     return NextResponse.json({
+//       success: true,
+//       data: safariTrip
+//     }, { status: 200 });
+//   } catch (error) {
+//     console.error('Error fetching safari trip:', error);
+//     return NextResponse.json({
+//       success: false,
+//       message: 'Failed to fetch safari trip',
+//       error: error instanceof Error ? error.message : 'Unknown error'
+//     }, { status: 500 });
+//   }
+// }
 
 // PUT /api/safariTrips/[id] - Update a specific safari trip
 export async function PUT(

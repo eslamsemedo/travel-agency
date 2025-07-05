@@ -3,34 +3,34 @@ import connectDB from '@/lib/mongodb';
 import SeaTrip from '@/models/SeaTrip';
 
 // GET /api/seaTrips/[id] - Get a specific sea trip
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  try {
-    await connectDB();
-    const seaTrip = await SeaTrip.findById(params.id);
+// export async function GET(
+//   request: NextRequest,
+//   { params }: { params: { id: string } }
+// ) {
+//   try {
+//     await connectDB();
+//     const seaTrip = await SeaTrip.findById(params.id);
     
-    if (!seaTrip) {
-      return NextResponse.json({
-        success: false,
-        message: 'Sea trip not found'
-      }, { status: 404 });
-    }
+//     if (!seaTrip) {
+//       return NextResponse.json({
+//         success: false,
+//         message: 'Sea trip not found'
+//       }, { status: 404 });
+//     }
     
-    return NextResponse.json({
-      success: true,
-      data: seaTrip
-    }, { status: 200 });
-  } catch (error) {
-    console.error('Error fetching sea trip:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Failed to fetch sea trip',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
-  }
-}
+//     return NextResponse.json({
+//       success: true,
+//       data: seaTrip
+//     }, { status: 200 });
+//   } catch (error) {
+//     console.error('Error fetching sea trip:', error);
+//     return NextResponse.json({
+//       success: false,
+//       message: 'Failed to fetch sea trip',
+//       error: error instanceof Error ? error.message : 'Unknown error'
+//     }, { status: 500 });
+//   }
+// }
 
 // PUT /api/seaTrips/[id] - Update a specific sea trip
 export async function PUT(

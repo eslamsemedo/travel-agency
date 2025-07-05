@@ -3,34 +3,34 @@ import connectDB from '@/lib/mongodb';
 import Hotel from '@/models/Hotel';
 
 // GET /api/hotels/[id] - Get a specific hotel
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  try {
-    await connectDB();
-    const hotel = await Hotel.findById(params.id);
+// export async function GET(
+//   request: NextRequest,
+//   { params }: { params: { id: string } }
+// ) {
+//   try {
+//     await connectDB();
+//     const hotel = await Hotel.findById(params.id);
     
-    if (!hotel) {
-      return NextResponse.json({
-        success: false,
-        message: 'Hotel not found'
-      }, { status: 404 });
-    }
+//     if (!hotel) {
+//       return NextResponse.json({
+//         success: false,
+//         message: 'Hotel not found'
+//       }, { status: 404 });
+//     }
     
-    return NextResponse.json({
-      success: true,
-      data: hotel
-    }, { status: 200 });
-  } catch (error) {
-    console.error('Error fetching hotel:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'Failed to fetch hotel',
-      error: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
-  }
-}
+//     return NextResponse.json({
+//       success: true,
+//       data: hotel
+//     }, { status: 200 });
+//   } catch (error) {
+//     console.error('Error fetching hotel:', error);
+//     return NextResponse.json({
+//       success: false,
+//       message: 'Failed to fetch hotel',
+//       error: error instanceof Error ? error.message : 'Unknown error'
+//     }, { status: 500 });
+//   }
+// }
 
 // PUT /api/hotels/[id] - Update a specific hotel
 export async function PUT(
