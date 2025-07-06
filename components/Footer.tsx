@@ -3,6 +3,7 @@ import Image from "next/image"
 import { Facebook, Instagram, Youtube, Plane, MapPin, Phone, Mail } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import Link from 'next/link'
 
 const Footer = () => {
   return (
@@ -102,8 +103,12 @@ const Footer = () => {
               <div>
                 <p className="text-sm mb-3">Connect with us</p>
                 <div className="flex space-x-3">
-                  <Facebook className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer" />
-                  <Instagram className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer" />
+                  <Link href={""}>
+                    <Facebook className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer" />
+                  </Link>
+                  <Link href={"https://www.instagram.com/mysky_travel?igsh=M21ueGdkc3EwZXg5"}>
+                    <Instagram className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer" />
+                  </Link>
                   <Youtube className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer" />
                 </div>
               </div>
@@ -202,7 +207,7 @@ const Footer = () => {
                 </div>
                 <div className="flex items-center">
                   <Mail className="w-4 h-4 mr-2 flex-shrink-0" />
-                  <span>support@example.com</span>
+                  <span>mohamed.salem1467@gmail.com</span>
                 </div>
               </div>
             </div>

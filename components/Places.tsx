@@ -27,7 +27,7 @@ const Places = () => {
     {
       name: "China",
       trips: 24,
-      image: "/world/China.jpg",
+      image: "/world/china.jpg",
     },
     {
       name: "Russia",

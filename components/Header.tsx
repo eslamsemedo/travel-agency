@@ -45,7 +45,7 @@ const Header = () => {
             </span>
             <span className="hidden md:inline">|</span>
             <span className="flex items-center gap-1">
-              <Send className="w-4 h-4" /> Support@Example.com
+              <Send className="w-4 h-4" /> mohamed.salem1467@gmail.com
             </span>
           </p>
         </div>
