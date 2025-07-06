@@ -16,7 +16,7 @@ type HotelEntry = {
   city: string;
   location: string;
   image: string;
-  video: string;
+  video?: string;
 };
 
 type SeaTripEntry = {
@@ -30,7 +30,7 @@ type SeaTripEntry = {
   transportation: string;
   total_price: string;
   image: string;
-  video: string;
+  video?: string;
 };
 
 type SafariTripEntry = {
@@ -42,7 +42,7 @@ type SafariTripEntry = {
   start_time: string;
   end_time: string;
   transportation: string;
-  video: string;
+  video?: string;
   total_price: string;
 };
 
@@ -160,7 +160,6 @@ const Trips = () => {
       const allTrips = [...hotelItems, ...seaTripItems, ...safariTripItems];
       setTrips(allTrips);
     } catch (error) {
-      console.error('Error fetching data:', error);
       setError('Failed to load trips. Please try again later.');
     } finally {
       setLoading(false);
@@ -197,7 +196,6 @@ const Trips = () => {
   };
 
   const handleBookingSuccess = (bookingData: any) => {
-    console.log('Booking successful:', bookingData);
     // Additional logic can be added here if needed
   };
 
@@ -260,7 +258,7 @@ const Trips = () => {
           {filteredTrips.map((trip) => (
             <div
               key={trip.id}
-              className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+              className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col h-full"
             >
               {/* Image Container */}
               <div className="relative h-[200px] sm:h-[250px] md:h-[280px] lg:h-[300px] overflow-hidden">
@@ -284,7 +282,7 @@ const Trips = () => {
               </div>
 
               {/* Card Content */}
-              <div className="p-3 sm:p-4 md:p-5 flex flex-col">
+              <div className="p-3 sm:p-4 md:p-5 flex flex-col h-full">
                 {/* Title */}
                 <h3 className="font-bold text-gray-900 text-base sm:text-lg mb-2 sm:mb-3 line-clamp-2">{trip.name}</h3>
 
@@ -292,7 +290,7 @@ const Trips = () => {
                 <p className="text-gray-600 text-xs sm:text-sm mb-3 line-clamp-3">{trip.description}</p>
 
                 {/* Location and Duration */}
-                <div className="space-y-1 sm:space-y-2 mb-3 sm:mb-4">
+                <div className="space-y-1 sm:space-y-2 mb-3 sm:mb-4 flex-grow">
                   {trip.location && (
                     <div className="flex items-center gap-1 sm:gap-2 text-gray-600 text-xs sm:text-sm">
                       <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-orange-500 flex-shrink-0" />
@@ -320,7 +318,7 @@ const Trips = () => {
                 </div>
 
                 {/* Price and Buttons */}
-                <div className="flex flex-col min-[890px]:flex-row min-[890px]:items-end min-[890px]:justify-between gap-3 min-[890px]:gap-2">
+                <div className="flex flex-col min-[890px]:flex-row min-[890px]:items-end min-[890px]:justify-between gap-3 min-[890px]:gap-2 mt-auto">
                   <div className="flex items-center gap-2">
                     <span className="text-lg md:text-xl lg:text-2xl font-bold text-blue-600">
                       {trip.total_price || trip.price || 'Contact'}

@@ -43,9 +43,6 @@ export async function POST(request: NextRequest) {
     await admin.save();
 
     // Create JWT token
-    console.log('Login - Creating JWT token...');
-    console.log('Login - JWT_SECRET length:', process.env.JWT_SECRET?.length);
-    
     const token = jwt.sign(
       { 
         id: admin._id, 
@@ -55,10 +52,6 @@ export async function POST(request: NextRequest) {
       process.env.JWT_SECRET || 'your-secret-key',
       { expiresIn: '24h' }
     );
-
-    console.log('Login - Token created:', !!token);
-    console.log('Login - Token length:', token.length);
-    console.log('Login - Token preview:', token.substring(0, 20) + '...');
 
     // Create response with token in httpOnly cookie
     const response = NextResponse.json(
@@ -75,7 +68,6 @@ export async function POST(request: NextRequest) {
     );
 
     // Set httpOnly cookie
-    console.log('Login - Setting cookie...');
     response.cookies.set('admin_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production', // Only secure in production
@@ -85,13 +77,9 @@ export async function POST(request: NextRequest) {
       domain: process.env.NODE_ENV === 'production' ? undefined : 'localhost'
     });
 
-    console.log('Login - Cookie set successfully');
-    console.log('Login - Response headers:', Object.fromEntries(response.headers.entries()));
-
     return response;
 
   } catch (error) {
-    console.error('Login error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

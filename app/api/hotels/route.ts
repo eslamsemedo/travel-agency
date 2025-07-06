@@ -14,7 +14,6 @@ export async function GET() {
       count: hotels.length
     }, { status: 200 });
   } catch (error) {
-    console.error('Error fetching hotels:', error);
     return NextResponse.json({
       success: false,
       message: 'Failed to fetch hotels',
@@ -47,7 +46,6 @@ export async function POST(request: NextRequest) {
       message: 'Hotel created successfully'
     }, { status: 201 });
   } catch (error) {
-    console.error('Error creating hotel:', error);
     
     if (error instanceof Error && error.name === 'ValidationError') {
       return NextResponse.json({

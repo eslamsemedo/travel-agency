@@ -6,7 +6,7 @@ export interface IHotel extends Document {
   city: string;
   location: string;
   image: string;
-  video: string;
+  video?: string;
 }
 
 const HotelSchema: Schema = new Schema({

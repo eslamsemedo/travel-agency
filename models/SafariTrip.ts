@@ -8,7 +8,7 @@ export interface ISafariTrip extends Document {
   start_time: string;
   end_time: string;
   transportation: string;
-  video: string;
+  video?: string;
   total_price: string;
 }
 

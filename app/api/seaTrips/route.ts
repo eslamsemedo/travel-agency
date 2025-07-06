@@ -14,7 +14,6 @@ export async function GET() {
       count: seaTrips.length
     }, { status: 200 });
   } catch (error) {
-    console.error('Error fetching sea trips:', error);
     return NextResponse.json({
       success: false,
       message: 'Failed to fetch sea trips',
@@ -47,7 +46,6 @@ export async function POST(request: NextRequest) {
       message: 'Sea trip created successfully'
     }, { status: 201 });
   } catch (error) {
-    console.error('Error creating sea trip:', error);
     
     if (error instanceof Error && error.name === 'ValidationError') {
       return NextResponse.json({

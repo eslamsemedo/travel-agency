@@ -13,7 +13,7 @@ type HotelEntry = {
   city: string;
   location: string;
   image: string;
-  video: string;
+  video?: string;
 };
 
 // Sea Trip type (updated fields)
@@ -28,7 +28,7 @@ type SeaTripEntry = {
   transportation: string;
   total_price: string;
   image: string;
-  video: string;
+  video?: string;
 };
 
 // Safari Trip type (updated fields)
@@ -41,7 +41,7 @@ type SafariTripEntry = {
   start_time: string;
   end_time: string;
   transportation: string;
-  video: string;
+  video?: string;
   total_price: string;
 };
 
@@ -159,10 +159,10 @@ const AdminPanel = () => {
           const data = await response.json(); // Or `await response.text()` if response is not JSON
           setHotelData(data.data);
         } else {
-          console.error("Failed to fetch hotel data");
+          // console.error("Failed to fetch hotel data");
         }
       } catch (error) {
-        console.error("Error fetching hotel data:", error);
+        // console.error("Error fetching hotel data:", error);
       } finally {
         setHotelLoading(false);
       }
@@ -190,10 +190,10 @@ const AdminPanel = () => {
           const data = await response.json();
           setSeaTripData(data.data);
         } else {
-          console.error("Failed to fetch sea trip data");
+          // console.error("Failed to fetch sea trip data");
         }
       } catch (error) {
-        console.error("Error fetching sea trip data:", error);
+        // console.error("Error fetching sea trip data:", error);
       } finally {
         setSeaTripLoading(false);
       }
@@ -221,10 +221,10 @@ const AdminPanel = () => {
           const data = await response.json();
           setSafariTripData(data.data);
         } else {
-          console.error("Failed to fetch safari trip data");
+          // console.error("Failed to fetch safari trip data");
         }
       } catch (error) {
-        console.error("Error fetching safari trip data:", error);
+        // console.error("Error fetching safari trip data:", error);
       } finally {
         setSafariTripLoading(false);
       }
@@ -252,10 +252,10 @@ const AdminPanel = () => {
           const data = await response.json();
           setBookingsData(data.data);
         } else {
-          console.error("Failed to fetch bookings data");
+          // console.error("Failed to fetch bookings data");
         }
       } catch (error) {
-        console.error("Error fetching bookings data:", error);
+        // console.error("Error fetching bookings data:", error);
       } finally {
         setBookingsLoading(false);
       }
@@ -293,7 +293,7 @@ const AdminPanel = () => {
         city: hotelForm.city,
         location: hotelForm.location,
         image: hotelForm.image,
-        video: hotelForm.video,
+        video: hotelForm.video || null,
       }
 
 
@@ -316,7 +316,7 @@ const AdminPanel = () => {
           );
           setHotelEditingId(null);
         } else {
-          console.error('Failed to update hotel');
+          // console.error('Failed to update hotel');
         }
       } else {
         // Create new hotel
@@ -332,12 +332,12 @@ const AdminPanel = () => {
           const newHotel = await response.json();
           setHotelData((prev) => [...prev, newHotel]);
         } else {
-          console.error('Failed to create hotel', response.status);
+          // console.error('Failed to create hotel', response.status);
         }
       }
       setHotelForm(emptyHotelForm);
     } catch (error) {
-      console.error('Error saving hotel:', error);
+      // console.error('Error saving hotel:', error);
     }
   };
 
@@ -363,10 +363,10 @@ const AdminPanel = () => {
           setHotelForm(emptyHotelForm);
         }
       } else {
-        console.error('Failed to delete hotel');
+        // console.error('Failed to delete hotel');
       }
     } catch (error) {
-      console.error('Error deleting hotel:', error);
+      // console.error('Error deleting hotel:', error);
     }
   };
 
@@ -394,7 +394,7 @@ const AdminPanel = () => {
         transportation: seaTripForm.transportation,
         total_price: String((parseFloat(seaTripForm.transportation) + parseFloat(seaTripForm.price)) * (1-parseFloat(seaTripForm.discount)/100) + String(seaTripForm.price.split(" ")[1])),
         image: seaTripForm.image,
-        video: seaTripForm.video,
+        video: seaTripForm.video || null,
       }
 
       if (seaTripEditingId) {
@@ -416,7 +416,7 @@ const AdminPanel = () => {
           );
           setSeaTripEditingId(null);
         } else {
-          console.error('Failed to update sea trip');
+          // console.error('Failed to update sea trip');
         }
       } else {
         // Create new sea trip
@@ -432,12 +432,12 @@ const AdminPanel = () => {
           const newSeaTrip = await response.json();
           setSeaTripData((prev) => [...prev, newSeaTrip.data]);
         } else {
-          console.error('Failed to create sea trip', response.status);
+          // console.error('Failed to create sea trip', response.status);
         }
       }
       setSeaTripForm(emptySeaTripForm);
     } catch (error) {
-      console.error('Error saving sea trip:', error);
+      // console.error('Error saving sea trip:', error);
     }
   };
 
@@ -463,10 +463,10 @@ const AdminPanel = () => {
           setSeaTripForm(emptySeaTripForm);
         }
       } else {
-        console.error('Failed to delete sea trip');
+        // console.error('Failed to delete sea trip');
       }
     } catch (error) {
-      console.error('Error deleting sea trip:', error);
+      // console.error('Error deleting sea trip:', error);
     }
   };
 
@@ -493,7 +493,7 @@ const AdminPanel = () => {
         transportation: safariTripForm.transportation,
         total_price: String((parseFloat(safariTripForm.transportation) + parseFloat(safariTripForm.price)) + String(safariTripForm.price.split(" ")[1])),
         image: safariTripForm.image,
-        video: safariTripForm.video,
+        video: safariTripForm.video || null,
       }
 
       if (safariTripEditingId) {
@@ -515,7 +515,7 @@ const AdminPanel = () => {
           );
           setSafariTripEditingId(null);
         } else {
-          console.error('Failed to update safari trip');
+          // console.error('Failed to update safari trip');
         }
       } else {
         // Create new safari trip
@@ -531,12 +531,12 @@ const AdminPanel = () => {
           const newSafariTrip = await response.json();
           setSafariTripData((prev) => [...prev, newSafariTrip.data]);
         } else {
-          console.error('Failed to create safari trip');
+          // console.error('Failed to create safari trip');
         }
       }
       setSafariTripForm(emptySafariTripForm);
     } catch (error) {
-      console.error('Error saving safari trip:', error);
+      // console.error('Error saving safari trip:', error);
     }
   };
 
@@ -562,10 +562,10 @@ const AdminPanel = () => {
           setSafariTripForm(emptySafariTripForm);
         }
       } else {
-        console.error('Failed to delete safari trip');
+        // console.error('Failed to delete safari trip');
       }
     } catch (error) {
-      console.error('Error deleting safari trip:', error);
+      // console.error('Error deleting safari trip:', error);
     }
   };
 
@@ -582,7 +582,7 @@ const AdminPanel = () => {
       });
       router.push('/admin/login');
     } catch (error) {
-      console.error('Logout error:', error);
+      // console.error('Logout error:', error);
     }
   };
 
@@ -773,10 +773,9 @@ const AdminPanel = () => {
               <input
                 name="video"
                 type="url"
-                placeholder="Enter video URL (YouTube, Vimeo, etc.)"
+                placeholder="Enter video URL (YouTube, Vimeo, etc.) - Optional"
                 value={hotelForm.video}
                 onChange={handleHotelChange}
-                required
                 className="input input-bordered w-full px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
@@ -1008,10 +1007,9 @@ const AdminPanel = () => {
               <input
                 name="video"
                 type="url"
-                placeholder="Enter video URL (YouTube, Vimeo, etc.)"
+                placeholder="Enter video URL (YouTube, Vimeo, etc.) - Optional"
                 value={seaTripForm.video}
                 onChange={handleSeaTripChange}
-                required
                 className="input input-bordered w-full px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
@@ -1264,10 +1262,9 @@ const AdminPanel = () => {
               <input
                 name="video"
                 type="url"
-                placeholder="Enter video URL (YouTube, Vimeo, etc.)"
+                placeholder="Enter video URL (YouTube, Vimeo, etc.) - Optional"
                 value={safariTripForm.video}
                 onChange={handleSafariTripChange}
-                required
                 className="input input-bordered w-full px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>

@@ -10,7 +10,7 @@ export interface ISeaTrip extends Document {
   transportation: string;
   total_price: string;
   image: string;
-  video: string;
+  video?: string;
 }
 
 const SeaTripSchema: Schema = new Schema({

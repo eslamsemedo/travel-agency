@@ -14,7 +14,6 @@ export async function GET() {
       message: 'Bookings retrieved successfully'
     });
   } catch (error) {
-    console.error('Error fetching bookings:', error);
     return NextResponse.json({
       success: false,
       message: 'Failed to fetch bookings',
@@ -64,7 +63,6 @@ export async function POST(request: NextRequest) {
       message: 'Booking created successfully'
     }, { status: 201 });
   } catch (error) {
-    console.error('Error creating booking:', error);
     
     if (error instanceof Error && error.name === 'ValidationError') {
       return NextResponse.json({

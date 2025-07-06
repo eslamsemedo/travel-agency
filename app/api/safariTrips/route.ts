@@ -14,7 +14,6 @@ export async function GET() {
       count: safariTrips.length
     }, { status: 200 });
   } catch (error) {
-    console.error('Error fetching safari trips:', error);
     return NextResponse.json({
       success: false,
       message: 'Failed to fetch safari trips',
@@ -47,7 +46,6 @@ export async function POST(request: NextRequest) {
       message: 'Safari trip created successfully'
     }, { status: 201 });
   } catch (error) {
-    console.error('Error creating safari trip:', error);
     
     if (error instanceof Error && error.name === 'ValidationError') {
       return NextResponse.json({

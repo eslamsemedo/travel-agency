@@ -6,11 +6,8 @@ import jwt from 'jsonwebtoken';
 export async function GET(request: NextRequest) {
   try {
     const token = request.cookies.get('admin_token')?.value;
-    console.log('Auth check - Token exists:', !!token);
-    console.log('Auth check - Token length:', token?.length);
 
     if (!token) {
-      console.log('Auth check - No token found');
       return NextResponse.json(
         { error: 'Not authenticated' },
         { status: 401 }
@@ -21,10 +18,7 @@ export async function GET(request: NextRequest) {
     let decoded;
     try {
       decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key') as any;
-      console.log('Auth check - Token verified:', !!decoded);
-      console.log('Auth check - Decoded token:', { id: decoded?.id, username: decoded?.username });
     } catch (jwtError) {
-      console.log('Auth check - JWT verification failed:', jwtError);
       return NextResponse.json(
         { error: 'Invalid token' },
         { status: 401 }
@@ -54,7 +48,6 @@ export async function GET(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Auth check error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
