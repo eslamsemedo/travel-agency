@@ -12,7 +12,7 @@ const Header = () => {
     setMenuOpen(!menuOpen);
   }
 
-  const scrollToSection = (sectionId: string) => {
+   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({
@@ -115,9 +115,9 @@ const Header = () => {
               <span className="absolute -top-2 -right-2 bg-orange-400 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">3</span>
             </div> */}
 
-            <div>
+            {/* <div>
               <Search className="w-5 h-5 text-black" />
-            </div>
+            </div> */}
           </div>
 
           {/* Booking Button */}

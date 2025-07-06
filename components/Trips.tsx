@@ -270,12 +270,11 @@ const Trips = () => {
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                   className="w-full h-full object-cover" />
-                <Badge className={`absolute top-2 sm:top-3 left-2 sm:left-3 ${
-                  trip.type === 'hotel' ? 'bg-blue-500' : 
-                  trip.type === 'seaTrip' ? 'bg-green-500' : 'bg-orange-500'
-                } text-white px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium`}>
-                  {trip.type === 'hotel' ? 'Hotel' : 
-                   trip.type === 'seaTrip' ? 'Sea Trip' : 'Safari Trip'}
+                <Badge className={`absolute top-2 sm:top-3 left-2 sm:left-3 ${trip.type === 'hotel' ? 'bg-blue-500' :
+                    trip.type === 'seaTrip' ? 'bg-green-500' : 'bg-orange-500'
+                  } text-white px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium`}>
+                  {trip.type === 'hotel' ? 'Hotel' :
+                    trip.type === 'seaTrip' ? 'Sea Trip' : 'Safari Trip'}
                 </Badge>
                 {trip.discount && (
                   <Badge className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-red-500 text-white px-2 py-1 text-xs font-medium">
@@ -324,10 +323,11 @@ const Trips = () => {
                 <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 sm:gap-2">
                   <div className="flex items-center gap-2">
                     <span className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-600">
-                        {trip.total_price || trip.price || 'Contact'}
+                      {trip.total_price || trip.price || 'Contact'}
                     </span>
-                    {trip.price && trip.total_price && trip.price !== trip.total_price && (
-                      <span className="text-gray-400 line-through text-xs sm:text-sm">{trip.price}</span>
+                    {trip.price && trip.total_price && (parseInt(trip.price) + parseInt(trip.transportation || "0")) !== parseInt(trip.total_price || "0") && (
+                      <span
+                        className="text-gray-400 line-through text-xs sm:text-sm">{String(parseInt(trip.price) + parseInt(trip.transportation || "0"))}</span>
                     )}
                     <span className="text-gray-500 text-xs sm:text-sm">
                       {trip.type === 'hotel' ? '/ Night' : '/ Person'}
@@ -335,7 +335,7 @@ const Trips = () => {
                   </div>
                   <div className="flex gap-2">
                     {trip.video && (
-                      <Button 
+                      <Button
                         onClick={() => handleWatchVideo(trip)}
                         variant="outline"
                         className="border-blue-500 text-blue-500 hover:bg-blue-50 px-2 sm:px-3 lg:px-4 py-1 sm:py-2 rounded-full font-medium flex items-center gap-1 sm:gap-2 text-xs sm:text-sm"
@@ -345,7 +345,7 @@ const Trips = () => {
                         <span className="sm:hidden">Video</span>
                       </Button>
                     )}
-                    <Button 
+                    <Button
                       onClick={() => handleBookNow(trip)}
                       className="bg-orange-500 hover:bg-orange-600 text-white px-3 sm:px-4 lg:px-6 py-1 sm:py-2 rounded-full font-medium text-xs sm:text-sm"
                     >
