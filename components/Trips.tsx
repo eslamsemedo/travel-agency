@@ -256,7 +256,7 @@ const Trips = () => {
           <p className="text-gray-500 text-lg">No trips found for the selected category.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2  gap-4 sm:gap-6 lg:gap-8">
           {filteredTrips.map((trip) => (
             <div
               key={trip.id}
@@ -320,9 +320,9 @@ const Trips = () => {
                 </div>
 
                 {/* Price and Buttons */}
-                <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 sm:gap-2">
+                <div className="flex flex-col min-[890px]:flex-row min-[890px]:items-end min-[890px]:justify-between gap-3 min-[890px]:gap-2">
                   <div className="flex items-center gap-2">
-                    <span className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-600">
+                    <span className="text-lg md:text-xl lg:text-2xl font-bold text-blue-600">
                       {trip.total_price || trip.price || 'Contact'}
                     </span>
                     {trip.price && trip.total_price && (parseInt(trip.price) + parseInt(trip.transportation || "0")) !== parseInt(trip.total_price || "0") && (
