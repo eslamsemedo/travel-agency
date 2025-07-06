@@ -195,56 +195,7 @@ const Header = () => {
             </ul>
           </div>
 
-          {/* Contact Information */}
-          <div className="mt-8 p-6 bg-white rounded-xl shadow-lg border border-gray-100">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Contact Us</h3>
-            <div className="space-y-3">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-orange-400 flex items-center justify-center">
-                  <Phone className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Call Anytime</p>
-                  <p className="font-semibold text-gray-800">+20 1101515111</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center">
-                  <Send className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">Email</p>
-                  <p className="font-semibold text-gray-800">mohamed.salem1467@gmail.com</p>
-                </div>
-              </div>
-            </div>
-            
-            {/* Social Links */}
-            <div className="mt-4 pt-4 border-t border-gray-200">
-              <p className="text-sm text-gray-600 mb-3">Follow Us</p>
-              <div className="flex gap-3">
-                <Link href={""} className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white hover:bg-blue-700 transition-colors duration-200">
-                  <Facebook className="w-5 h-5" />
-                </Link>
-                <Link href={"https://www.instagram.com/mysky_travel?igsh=M21ueGdkc3EwZXg5"} className="w-10 h-10 rounded-full bg-pink-500 flex items-center justify-center text-white hover:bg-pink-600 transition-colors duration-200">
-                  <Instagram className="w-5 h-5" />
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          {/* Booking Button */}
-          <div className="mt-6">
-            <button
-              onClick={() => {
-                scrollToSection("places");
-                handleMenuClick();
-              }}
-              className="w-full bg-orange-400 text-white py-4 rounded-xl font-semibold text-lg hover:bg-orange-500 transition-colors duration-200 shadow-lg"
-            >
-              Book Now
-            </button>
-          </div>
+          
         </div>
       </div>
     </div>
