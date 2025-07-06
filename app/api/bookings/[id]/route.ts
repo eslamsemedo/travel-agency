@@ -5,8 +5,9 @@ import Booking from '@/models/Booking';
 // GET /api/bookings/[id] - Get a specific booking
 export async function GET(
   request: NextRequest,
-  { params: { id } }: { params: { id: string } } 
+  { params }: { params: { id: string } }
 ) {
+  const { id } = await params;
   try {
     await connectDB();
     const booking = await Booking.findById(id);
