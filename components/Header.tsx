@@ -151,14 +151,14 @@ const Header = () => {
         <div className="flex flex-col h-full relative">
           {/* Header with close button */}
           <div className="flex justify-between items-center mb-8">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 overflow-hidden">
               <div className="w-12 h-12 rounded-full bg-orange-400 flex items-center justify-center">
                 <Image
                   src={"/imgs/logo4.png"}
                   alt="Logo"
                   width={40}
                   height={40}
-                  className="object-cover scale-110"
+                  className="object-cover scale-125"
                 />
               </div>
               <span className="text-xl font-bold">
