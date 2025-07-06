@@ -5,11 +5,11 @@ import Booking from '@/models/Booking';
 // GET /api/bookings/[id] - Get a specific booking
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params: { id } }: { params: { id: string } } 
 ) {
   try {
     await connectDB();
-    const booking = await Booking.findById(params.id);
+    const booking = await Booking.findById(id);
     if (!booking) {
       return NextResponse.json({ success: false, message: 'Booking not found' }, { status: 404 });
     }
@@ -22,7 +22,7 @@ export async function GET(
 // PUT /api/bookings/[id] - Update booking status
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params: { id } }: { params: { id: string } } 
 ) {
   try {
     await connectDB();
@@ -32,7 +32,7 @@ export async function PUT(
       return NextResponse.json({ success: false, message: 'Invalid status value' }, { status: 400 });
     }
     const booking = await Booking.findByIdAndUpdate(
-      params.id,
+      id,
       { status },
       { new: true, runValidators: true }
     );
