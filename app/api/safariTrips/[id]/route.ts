@@ -35,8 +35,9 @@ import SafariTrip from '@/models/SafariTrip';
 // PUT /api/safariTrips/[id] - Update a specific safari trip
 export async function PUT(
   request: NextRequest,
-  { params: { id } }: { params: { id: string } } 
+  { params }: { params: Promise<{ id: string }> } 
 ) {
+  const { id } = await params;
   try {
     await connectDB();
     const body = await request.json();
@@ -91,8 +92,9 @@ export async function PUT(
 // DELETE /api/safariTrips/[id] - Delete a specific safari trip
 export async function DELETE(
   request: NextRequest,
-  { params: { id } }: { params: { id: string } } 
+  { params }: { params: Promise<{ id: string }> } 
 ) {
+  const { id } = await params;
   try {
     await connectDB();
     const safariTrip = await SafariTrip.findByIdAndDelete(id);

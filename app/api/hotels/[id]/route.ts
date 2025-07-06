@@ -35,8 +35,9 @@ import Hotel from '@/models/Hotel';
 // PUT /api/hotels/[id] - Update a specific hotel
 export async function PUT(
   request: NextRequest,
-  { params: { id } }: { params: { id: string } } 
+  { params }: { params: Promise<{ id: string }> } 
 ) {
+  const { id } = await params;
   try {
     await connectDB();
     const body = await request.json();
@@ -91,8 +92,9 @@ export async function PUT(
 // DELETE /api/hotels/[id] - Delete a specific hotel
 export async function DELETE(
   request: NextRequest,
-  { params: { id } }: { params: { id: string } } 
+  { params }: { params: Promise<{ id: string }> } 
 ) {
+  const { id } = await params;
   try {
     await connectDB();
     const hotel = await Hotel.findByIdAndDelete(id);

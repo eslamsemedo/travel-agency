@@ -35,8 +35,9 @@ import SeaTrip from '@/models/SeaTrip';
 // PUT /api/seaTrips/[id] - Update a specific sea trip
 export async function PUT(
   request: NextRequest,
-  { params: { id } }: { params: { id: string } } 
+  { params }: { params: Promise<{ id: string }> } 
 ) {
+  const { id } = await params;
   try {
     await connectDB();
     const body = await request.json();
@@ -91,8 +92,9 @@ export async function PUT(
 // DELETE /api/seaTrips/[id] - Delete a specific sea trip
 export async function DELETE(
   request: NextRequest,
-  { params: { id } }: { params: { id: string } } 
+  { params }: { params: Promise<{ id: string }> } 
 ) {
+  const { id } = await params;
   try {
     await connectDB();
     const seaTrip = await SeaTrip.findByIdAndDelete(id);
