@@ -152,7 +152,7 @@ const Header = () => {
           {/* Header with close button */}
           <div className="flex justify-between items-center mb-8">
             <div className="flex items-center gap-3 overflow-hidden">
-              <div className="w-12 h-12 rounded-full bg-orange-400 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-full bg-orange-400 flex items-center justify-center overflow-hidden">
                 <Image
                   src={"/imgs/logo4.png"}
                   alt="Logo"
