@@ -256,89 +256,80 @@ const Trips = () => {
           <p className="text-gray-500 text-lg">No trips found for the selected category.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2  gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {filteredTrips.map((trip) => (
             <div
               key={trip.id}
               className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
             >
               {/* Image Container */}
-              <div className="relative h-[300px] overflow-hidden">
+              <div className="relative h-[200px] sm:h-[250px] md:h-[280px] lg:h-[300px] overflow-hidden">
                 <Image
                   src={trip.image}
                   alt={trip.name}
                   fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                   className="w-full h-full object-cover" />
-                <Badge className={`absolute top-3 left-3 ${
+                <Badge className={`absolute top-2 sm:top-3 left-2 sm:left-3 ${
                   trip.type === 'hotel' ? 'bg-blue-500' : 
                   trip.type === 'seaTrip' ? 'bg-green-500' : 'bg-orange-500'
-                } text-white px-3 py-1 text-sm font-medium`}>
+                } text-white px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium`}>
                   {trip.type === 'hotel' ? 'Hotel' : 
                    trip.type === 'seaTrip' ? 'Sea Trip' : 'Safari Trip'}
                 </Badge>
                 {trip.discount && (
-                  <Badge className="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 text-xs font-medium">
+                  <Badge className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-red-500 text-white px-2 py-1 text-xs font-medium">
                     {trip.discount}
                   </Badge>
                 )}
               </div>
 
               {/* Card Content */}
-              <div className="p-5 flex flex-col">
-                {/* Rating */}
-                {/* <div className="flex items-center gap-2 mb-3">
-                  <div className="flex items-center gap-1">
-                    <Star className="w-4 h-4 fill-orange-400 text-orange-400" />
-                    <span className="font-semibold text-gray-900">{trip.rating}</span>
-                  </div>
-                  <span className="text-gray-500 text-sm">({trip.reviews} Reviews)</span>
-                </div> */}
-
+              <div className="p-3 sm:p-4 md:p-5 flex flex-col">
                 {/* Title */}
-                <h3 className="font-bold text-gray-900 text-lg mb-3 line-clamp-2">{trip.name}</h3>
+                <h3 className="font-bold text-gray-900 text-base sm:text-lg mb-2 sm:mb-3 line-clamp-2">{trip.name}</h3>
 
                 {/* Description */}
-                <p className="text-gray-600 text-sm mb-3 ">{trip.description}</p>
+                <p className="text-gray-600 text-xs sm:text-sm mb-3 line-clamp-3">{trip.description}</p>
 
                 {/* Location and Duration */}
-                <div className="space-y-2 mb-4 ">
+                <div className="space-y-1 sm:space-y-2 mb-3 sm:mb-4">
                   {trip.location && (
-                    <div className="flex items-center gap-2 text-gray-600 text-sm">
-                      <MapPin className="w-4 h-4 text-orange-500" />
-                      <Link className='text-blue-600' href={trip.location}>location</Link>
+                    <div className="flex items-center gap-1 sm:gap-2 text-gray-600 text-xs sm:text-sm">
+                      <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-orange-500 flex-shrink-0" />
+                      <Link className='text-blue-600 truncate' href={trip.location}>location</Link>
                     </div>
                   )}
                   {trip.city && (
-                    <div className="flex items-center gap-2 text-gray-600 text-sm">
-                      <MapPin className="w-4 h-4 text-orange-500" />
-                      <span>{trip.city}</span>
+                    <div className="flex items-center gap-1 sm:gap-2 text-gray-600 text-xs sm:text-sm">
+                      <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-orange-500 flex-shrink-0" />
+                      <span className="truncate">{trip.city}</span>
                     </div>
                   )}
                   {trip.duration && (
-                    <div className="flex items-center gap-2 text-gray-600 text-sm">
-                      <Clock className="w-4 h-4 text-orange-500" />
-                      <span>{trip.duration}</span>
+                    <div className="flex items-center gap-1 sm:gap-2 text-gray-600 text-xs sm:text-sm">
+                      <Clock className="w-3 h-3 sm:w-4 sm:h-4 text-orange-500 flex-shrink-0" />
+                      <span className="truncate">{trip.duration}</span>
                     </div>
                   )}
                   {trip.transportation && (
-                    <div className="flex items-center gap-2 text-gray-600 text-sm">
-                      <Zap className="w-4 h-4 text-orange-500" />
-                      <span>transportation includes</span>
+                    <div className="flex items-center gap-1 sm:gap-2 text-gray-600 text-xs sm:text-sm">
+                      <Zap className="w-3 h-3 sm:w-4 sm:h-4 text-orange-500 flex-shrink-0" />
+                      <span className="truncate">transportation includes</span>
                     </div>
                   )}
                 </div>
 
                 {/* Price and Buttons */}
-                <div className="flex mb-3 items-end justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 sm:gap-2">
                   <div className="flex items-center gap-2">
-                    <span className="text-2xl font-bold text-blue-600">
+                    <span className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-600">
                         {trip.total_price || trip.price || 'Contact'}
                     </span>
                     {trip.price && trip.total_price && trip.price !== trip.total_price && (
-                      <span className="text-gray-400 line-through text-sm">{trip.price}</span>
+                      <span className="text-gray-400 line-through text-xs sm:text-sm">{trip.price}</span>
                     )}
-                    <span className="text-gray-500 text-sm">
+                    <span className="text-gray-500 text-xs sm:text-sm">
                       {trip.type === 'hotel' ? '/ Night' : '/ Person'}
                     </span>
                   </div>
@@ -347,21 +338,16 @@ const Trips = () => {
                       <Button 
                         onClick={() => handleWatchVideo(trip)}
                         variant="outline"
-                        className="border-blue-500 text-blue-500 hover:bg-blue-50 px-4 py-2 rounded-full font-medium flex items-center gap-2"
+                        className="border-blue-500 text-blue-500 hover:bg-blue-50 px-2 sm:px-3 lg:px-4 py-1 sm:py-2 rounded-full font-medium flex items-center gap-1 sm:gap-2 text-xs sm:text-sm"
                       >
-                        <Play className="w-4 h-4" />
-                        Watch Video
+                        <Play className="w-3 h-3 sm:w-4 sm:h-4" />
+                        <span className="hidden sm:inline">Watch Video</span>
+                        <span className="sm:hidden">Video</span>
                       </Button>
                     )}
-                    {/* Debug: Show video URL if exists
-                    {trip.video && (
-                      <div className="text-xs text-gray-500 mt-1">
-                        Video: {trip.video}
-                      </div>
-                    )} */}
                     <Button 
                       onClick={() => handleBookNow(trip)}
-                      className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full font-medium"
+                      className="bg-orange-500 hover:bg-orange-600 text-white px-3 sm:px-4 lg:px-6 py-1 sm:py-2 rounded-full font-medium text-xs sm:text-sm"
                     >
                       Book Now
                     </Button>

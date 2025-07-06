@@ -26,9 +26,9 @@ const Footer = () => {
         {/* Newsletter Section */}
         <div className=" max-[768px]:h-[315px] absolute  z-20 transform  translate-y-3/4 px-4 pb-20">
           <div className="max-w-4xl mx-auto max-[768px]:h-[315px]">
-            <div className="max-[640px]:h-[315px] bg-gradient-to-r from-blue-600 to-blue-500 rounded-3xl p-8 md:p-12 relative overflow-hidden">
+            <div className="max-[640px]:h-[215px] bg-gradient-to-r from-blue-600 to-blue-500 rounded-3xl p-8 md:p-12 relative overflow-hidden">
               {/* Background Pattern */}
-              <div className="absolute inset-0 opacity-10">
+              <div className="absolute inset-0 opacity-10 ">
                 <svg className="w-full h-full" viewBox="0 0 400 200" fill="none">
                   <path d="M0 100C100 50 200 150 400 100" stroke="white" strokeWidth="2" />
                   <path d="M0 120C100 70 200 170 400 120" stroke="white" strokeWidth="2" />
@@ -38,7 +38,7 @@ const Footer = () => {
 
               <div className="relative z-10 flex flex-col lg:flex-row items-center gap-8">
                 {/* Left Content */}
-                <div className="flex-1 text-center lg:text-left">
+                <div className="flex-1 text-center  lg:text-left">
                   <div className="flex items-center justify-center lg:justify-start mb-6">
                     <Plane className="w-8 h-8 text-white mr-3" />
                   </div>

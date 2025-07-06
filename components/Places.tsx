@@ -64,21 +64,23 @@ const Places = () => {
   return (
     <div id="places" className="w-full max-w-7xl mx-auto px-4 py-8">
       {/* Header Section */}
-      <div className="flex items-center justify-between mb-8">
-        <div>
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
+        <div className="text-center lg:text-left">
           <p className="text-blue-500 text-sm font-medium mb-2">Destinations</p>
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">
             Explore the Beautiful Places
             <br />
             Around World
           </h1>
         </div>
-        <Button 
-          onClick={handleBookFlight}
-          className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 border-0"
-        >
-          Book Your Flight Now
-        </Button>
+        <div className="flex justify-center lg:justify-end">
+          <Button 
+            onClick={handleBookFlight}
+            className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 border-0"
+          >
+            Book Your Flight Now
+          </Button>
+        </div>
       </div>
 
       {/* Destinations Grid */}
