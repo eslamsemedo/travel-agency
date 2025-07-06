@@ -13,7 +13,7 @@ const Footer = () => {
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: "url('/1.jpg')",
+            backgroundImage: "url('/imgs/2.jpg')",
           }}
         >
           <div className="absolute inset-0 bg-black/30" />
@@ -46,14 +46,14 @@ const Footer = () => {
                   <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">Sign Up Your Newsletter</h2>
 
                   <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto lg:mx-0">
-                    <Input
+                    {/* <Input
                       type="email"
                       placeholder="Enter Email Address"
                       className="flex-1 bg-white/90 border-0 rounded-full px-6 py-3 text-gray-800 placeholder:text-gray-500"
                     />
                     <Button className="bg-orange-500 hover:bg-orange-600 text-white rounded-full px-8 py-3 font-semibold">
                       Subscribe ✈
-                    </Button>
+                    </Button> */}
                   </div>
 
                   {/* <p className="text-white/80 text-sm mt-4">You agree to Tourin Terms and Conditions, Privacy Policy</p> */}

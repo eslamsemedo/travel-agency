@@ -121,7 +121,9 @@ const Header = () => {
           </div>
 
           {/* Booking Button */}
-          <button className="max-[650px]:hidden bg-orange-400 text-white px-3 py-2 h-full rounded-full font-semibold">
+          <button
+          onClick={() => scrollToSection("places")}
+           className="cursor-pointer max-[650px]:hidden bg-orange-400 text-white px-3 py-2 h-full rounded-full font-semibold">
             Booking Now
           </button>
           {/* the menu buttom with slider to review the options */}

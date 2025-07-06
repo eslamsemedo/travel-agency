@@ -1,8 +1,12 @@
-import React from 'react'
+"use client"
+import React, { useState } from 'react'
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import FlightBookingModal from "./FlightBookingModal"
 
 const Places = () => {
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+
   const destinations = [
     {
       name: "France",
@@ -46,6 +50,17 @@ const Places = () => {
     },
   ]
 
+  const handleBookFlight = () => {
+    setIsBookingModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsBookingModalOpen(false);
+  };
+
+  const handleBookingSuccess = (bookingData: any) => {
+  };
+
   return (
     <div id="places" className="w-full max-w-7xl mx-auto px-4 py-8">
       {/* Header Section */}
@@ -58,7 +73,10 @@ const Places = () => {
             Around World
           </h1>
         </div>
-        <Button className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 border-0">
+        <Button 
+          onClick={handleBookFlight}
+          className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 border-0"
+        >
           Book Your Flight Now
         </Button>
       </div>
@@ -74,9 +92,8 @@ const Places = () => {
             <Image
               src={destination.image || "/placeholder.svg"}
               alt={destination.name}
-              // width={600}
-              // height={400}
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover transition-transform duration-300 group-hover:scale-110"
             />
 
@@ -97,6 +114,13 @@ const Places = () => {
           </div>
         ))}
       </div>
+
+      {/* Flight Booking Modal */}
+      <FlightBookingModal
+        isOpen={isBookingModalOpen}
+        onClose={handleCloseModal}
+        onBookingSuccess={handleBookingSuccess}
+      />
     </div>
   )
 }

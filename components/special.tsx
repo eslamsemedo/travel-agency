@@ -58,6 +58,7 @@ const special = () => {
                     src={feature.image || "/placeholder.svg"}
                     alt={feature.alt}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                     className="object-cover rounded-2xl" />
                   {/* Icon Overlay */}
                   {/* <div className="  w-fit transform  translate-y-1/2  rounded-full p-3  z-40 pointer-events-none"> */}

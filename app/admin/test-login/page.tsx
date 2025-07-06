@@ -10,7 +10,6 @@ const TestLogin = () => {
     setResult(null);
 
     try {
-      console.log('Testing login...');
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
@@ -21,7 +20,6 @@ const TestLogin = () => {
       });
 
       const data = await response.json();
-      console.log('Test login response:', data);
 
       if (response.ok) {
         // Test the auth check

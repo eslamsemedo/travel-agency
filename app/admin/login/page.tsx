@@ -9,17 +9,12 @@ const AdminLogin = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  console.log('Login page loaded');
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
-    console.log('Submitting login form:', { username, password });
-
     try {
-      console.log('Sending login request...');
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
@@ -29,17 +24,11 @@ const AdminLogin = () => {
         credentials: 'include', // Important for cookies
       });
 
-      console.log('Response status:', response.status);
-      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-      
       const data = await response.json();
-      console.log('Login response:', data);
       
       // Check if cookie was set
-      console.log('Document cookies after login:', document.cookie);
 
       if (response.ok) {
-        console.log('Login successful, redirecting to /admin');
         setError('Login successful! Redirecting...');
         
         // Clear any existing error state
@@ -47,25 +36,21 @@ const AdminLogin = () => {
         
         // Use a more reliable redirect approach
         setTimeout(() => {
-          console.log('Attempting redirect...');
           try {
             router.push('/admin');
           } catch (error) {
-            console.log('Router push failed, using window.location');
             window.location.href = '/admin';
           }
         }, 1000);
         
         // Additional fallback redirect
         setTimeout(() => {
-          console.log('Fallback redirect after 3 seconds');
           window.location.href = '/admin';
         }, 3000);
       } else {
         setError(data.error || 'Invalid credentials');
       }
     } catch (error) {
-      console.error('Login error:', error);
       setError('Network error. Please try again.');
     } finally {
       setLoading(false);

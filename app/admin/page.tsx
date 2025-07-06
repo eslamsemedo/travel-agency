@@ -117,23 +117,18 @@ const AdminPanel = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        console.log('Checking authentication...');
         const response = await fetch('/api/auth/me', {
           credentials: 'include', // Important for cookies
         });
-        console.log('Auth response status:', response.status);
         
         if (response.ok) {
           const data = await response.json();
-          console.log('Auth successful, admin info:', data.admin);
           setAdminInfo(data.admin);
         } else {
-          console.log('Auth failed, redirecting to login');
           router.push('/admin/login');
           return;
         }
       } catch (error) {
-        console.error('Auth check error:', error);
         router.push('/admin/login');
         return;
       } finally {
@@ -304,7 +299,6 @@ const AdminPanel = () => {
 
       if (hotelEditingId) {
         // Update existing hotel
-        console.log(hotelEditingId)
         const response = await fetch(`/api/hotels/${hotelEditingId}`, {
           method: "PUT",
           headers: {
@@ -349,7 +343,6 @@ const AdminPanel = () => {
 
   const handleHotelEdit = (id: number) => {
     const entry = hotelData.find((item) => item._id === id);
-    console.log(id)
     if (entry) {
       const { _id: _id, ...rest } = entry;
       setHotelForm(rest);
@@ -1429,10 +1422,13 @@ const AdminPanel = () => {
                           <span className={`px-2 py-1 rounded text-xs font-medium ${
                             booking.tripType === 'hotel' ? 'bg-blue-100 text-blue-800' :
                             booking.tripType === 'seaTrip' ? 'bg-green-100 text-green-800' :
+                            booking.tripName === 'International Flight Booking' ? 'bg-purple-100 text-purple-800' :
                             'bg-orange-100 text-orange-800'
                           }`}>
                             {booking.tripType === 'hotel' ? 'Hotel' : 
-                             booking.tripType === 'seaTrip' ? 'Sea Trip' : 'Safari Trip'}
+                             booking.tripType === 'seaTrip' ? 'Sea Trip' : 
+                             booking.tripName === 'International Flight Booking' ? 'Flight' :
+                             'Safari Trip'}
                           </span>
                         </td>
                         <td className="py-2 px-3 text-center">{booking.tripPrice}</td>

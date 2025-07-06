@@ -1,12 +1,13 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Star, MapPin, Clock, Zap, Percent } from "lucide-react"
+import { Star, MapPin, Clock, Zap, Percent, Play } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import Image from 'next/image'
 import Link from 'next/link'
 import BookingModal from './BookingModal'
+import VideoModal from './VideoModal'
 
 type HotelEntry = {
   _id: string;
@@ -51,6 +52,7 @@ type TripItem = {
   name: string;
   description: string;
   image: string;
+  video?: string;
   location?: string;
   city?: string;
   duration?: string;
@@ -71,6 +73,8 @@ const Trips = () => {
   const [error, setError] = useState<string | null>(null);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [selectedTrip, setSelectedTrip] = useState<TripItem | null>(null);
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useState<{ url: string; title: string } | null>(null);
 
   const filterButtons = [
     { label: "All", value: "all", active: true },
@@ -100,17 +104,20 @@ const Trips = () => {
       }
 
       // Transform hotels data
-      const hotelItems: TripItem[] = hotelsData.data.map((hotel: HotelEntry) => ({
-        id: hotel._id,
-        type: 'hotel',
-        name: hotel.name,
-        description: hotel.description,
-        image: hotel.image,
-        city: hotel.city,
-        location: hotel.location,
-        rating: 4.5,
-        reviews: Math.floor(Math.random() * 200) + 50,
-      }));
+      const hotelItems: TripItem[] = hotelsData.data.map((hotel: HotelEntry) => {
+        return {
+          id: hotel._id,
+          type: 'hotel',
+          name: hotel.name,
+          description: hotel.description,
+          image: hotel.image,
+          video: hotel.video,
+          city: hotel.city,
+          location: hotel.location,
+          rating: 4.5,
+          reviews: Math.floor(Math.random() * 200) + 50,
+        };
+      });
 
       // Transform sea trips data
       const seaTripItems: TripItem[] = seaTripsData.data.map((trip: SeaTripEntry) => ({
@@ -119,6 +126,7 @@ const Trips = () => {
         name: trip.name,
         description: trip.description,
         image: trip.image,
+        video: trip.video,
         price: trip.price,
         total_price: trip.total_price,
         discount: trip.discount,
@@ -137,6 +145,7 @@ const Trips = () => {
         name: trip.name,
         description: trip.description,
         image: trip.image,
+        video: trip.video,
         price: trip.price,
         total_price: trip.total_price,
         start_time: trip.start_time,
@@ -178,6 +187,13 @@ const Trips = () => {
   const handleBookNow = (trip: TripItem) => {
     setSelectedTrip(trip);
     setIsBookingModalOpen(true);
+  };
+
+  const handleWatchVideo = (trip: TripItem) => {
+    if (trip.video) {
+      setSelectedVideo({ url: trip.video, title: trip.name });
+      setIsVideoModalOpen(true);
+    }
   };
 
   const handleBookingSuccess = (bookingData: any) => {
@@ -252,6 +268,7 @@ const Trips = () => {
                   src={trip.image}
                   alt={trip.name}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="w-full h-full object-cover" />
                 <Badge className={`absolute top-3 left-3 ${
                   trip.type === 'hotel' ? 'bg-blue-500' : 
@@ -312,7 +329,7 @@ const Trips = () => {
                   )}
                 </div>
 
-                {/* Price and Book Button */}
+                {/* Price and Buttons */}
                 <div className="flex mb-3 items-end justify-between">
                   <div className="flex items-center gap-2">
                     <span className="text-2xl font-bold text-blue-600">
@@ -325,12 +342,30 @@ const Trips = () => {
                       {trip.type === 'hotel' ? '/ Night' : '/ Person'}
                     </span>
                   </div>
-                  <Button 
-                    onClick={() => handleBookNow(trip)}
-                    className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full font-medium"
-                  >
-                    Book Now
-                  </Button>
+                  <div className="flex gap-2">
+                    {trip.video && (
+                      <Button 
+                        onClick={() => handleWatchVideo(trip)}
+                        variant="outline"
+                        className="border-blue-500 text-blue-500 hover:bg-blue-50 px-4 py-2 rounded-full font-medium flex items-center gap-2"
+                      >
+                        <Play className="w-4 h-4" />
+                        Watch Video
+                      </Button>
+                    )}
+                    {/* Debug: Show video URL if exists
+                    {trip.video && (
+                      <div className="text-xs text-gray-500 mt-1">
+                        Video: {trip.video}
+                      </div>
+                    )} */}
+                    <Button 
+                      onClick={() => handleBookNow(trip)}
+                      className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full font-medium"
+                    >
+                      Book Now
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -354,6 +389,19 @@ const Trips = () => {
             total_price: selectedTrip.total_price
           }}
           onBookingSuccess={handleBookingSuccess}
+        />
+      )}
+
+      {/* Video Modal */}
+      {selectedVideo && (
+        <VideoModal
+          isOpen={isVideoModalOpen}
+          onClose={() => {
+            setIsVideoModalOpen(false);
+            setSelectedVideo(null);
+          }}
+          videoUrl={selectedVideo.url}
+          title={selectedVideo.title}
         />
       )}
     </div>
