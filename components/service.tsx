@@ -9,7 +9,7 @@ import Image from 'next/image'
 const service = () => {
   return (
     <>
-      <div className="bg-white py-16 px-4 relative">
+      <div id="service" className="bg-white py-16 px-4 relative">
         {/* <Image
           src={bg}
           alt="world"
@@ -22,23 +22,41 @@ const service = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left side - Image collage */}
             <div className="relative">
-              <div className="grid grid-cols-2 gap-4 h-[500px]">
+              <div className="grid grid-cols-2 grid-rows-3 gap-4 h-[500px]">
                 {/* Main image - Woman with hat */}
-                <div className="bg-gradient-to-br from-blue-400 to-blue-600 rounded-3xl p-8 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-32 h-32 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center">
-                      <div className="w-24 h-24 bg-white/30 rounded-full"></div>
+                <div className="relative rounded-3xl row-span-2 overflow-hidden">
+                  <Image
+                    src="/service/enjoy.png"
+                    alt="Traveler enjoying vacation"
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/20 flex items-end justify-center p-4">
+                    <div className="text-center">
+                      {/* <div className="w-32 h-32 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center backdrop-blur-sm">
+                        <div className="w-24 h-24 bg-white/30 rounded-full"></div>
+                      </div> */}
+                      <div className="text-white text-sm font-medium">Traveler enjoying vacation</div>
                     </div>
-                    <div className="text-white text-sm">Traveler enjoying vacation</div>
                   </div>
                 </div>
 
                 {/* Mountain landscape with discount badge */}
-                <div className="relative">
-                  <div className="bg-gradient-to-b from-blue-300 to-green-400 rounded-3xl h-full flex items-end justify-center p-4">
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-green-600 rounded-full mx-auto mb-2"></div>
-                      <div className="text-white text-xs">Mountain Adventure</div>
+                <div className="relative row-span-2">
+                  <div className="relative rounded-3xl overflow-hidden h-full">
+                    <Image
+                      src="/service/mountain.png"
+                      alt="Mountain Adventure"
+                      fill
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/20 flex items-end justify-center p-4">
+                      <div className="text-center">
+                        {/* <div className="w-16 h-16 bg-green-600 rounded-full mx-auto mb-2 flex items-center justify-center">
+                          <div className="w-12 h-12 bg-white/20 rounded-full"></div>
+                        </div> */}
+                        <div className="text-white text-xs font-medium">Mountain Adventure</div>
+                      </div>
                     </div>
                   </div>
                   {/* Discount badge */}
@@ -51,8 +69,16 @@ const service = () => {
                 </div>
 
                 {/* Beach scene - spans full width */}
-                <div className="col-span-2 bg-gradient-to-r from-teal-400 to-blue-400 rounded-3xl h-32 flex items-center justify-center">
-                  <div className="text-white text-sm">Beautiful coastal destination</div>
+                <div className="col-span-2 relative rounded-3xl overflow-hidden h-32">
+                  <Image
+                    src="/service/sea.png"
+                    alt="Beautiful coastal destination"
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                    <div className="text-white text-sm font-medium">Beautiful coastal destination</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -69,9 +95,7 @@ const service = () => {
 
               {/* Description */}
               <p className="text-gray-600 leading-relaxed">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum imperdiet rhoncus. Duis iaculis
-                suscipit auctor. Aliquam vehicula, magna a elementum viverra, tellus mauris tempor elit, vitae pharetra
-                turpis justo ut neque. Sed non venenatis turpis.
+              From weekend escapes to once-in-a-lifetime expeditions, we turn travel dreams into seamless reality.  With insider expertise, hand-picked partners, and round-the-clock support, we handle every detail so you can simply enjoy the journey.
               </p>
 
               {/* Features grid */}
@@ -83,7 +107,9 @@ const service = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Friendly Guide</h3>
-                    <p className="text-sm text-gray-600">Lorem ipsum dolor sit amet, consectetur</p>
+                    <p className="text-sm text-gray-600">Our locally based guides aren’t just experts—they’re storytellers who share hidden gems and culture with a personal touch.
+
+                    </p>
                   </div>
                 </div>
 
@@ -94,7 +120,8 @@ const service = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Save Time</h3>
-                    <p className="text-sm text-gray-600">Lorem ipsum dolor sit amet, consectetur</p>
+                    <p className="text-sm text-gray-600">Every itinerary is backed by vetted accommodations, trusted transport, and 24/7 assistance for total peace of mind.
+                    </p>
                   </div>
                 </div>
 
@@ -105,7 +132,8 @@ const service = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Safety Travel</h3>
-                    <p className="text-sm text-gray-600">Lorem ipsum dolor sit amet, consectetur</p>
+                    <p className="text-sm text-gray-600">Skip the guesswork—our planning tools and priority access mean less waiting and more exploring on every trip.
+                    </p>
                   </div>
                 </div>
 
@@ -116,17 +144,18 @@ const service = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Best Price</h3>
-                    <p className="text-sm text-gray-600">Lorem ipsum dolor sit amet, consectetur</p>
+                    <p className="text-sm text-gray-600">Thanks to global partnerships, we secure exclusive rates and transparent pricing—no surprises, just great value.
+                    </p>
                   </div>
                 </div>
               </div>
 
-              {/* CTA Button */}
+              {/* CTA Button
               <div>
                 <Button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-full font-medium">
                   Discover More
                 </Button>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

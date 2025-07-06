@@ -1,106 +1,216 @@
-import React from 'react'
+'use client'
+
+import React, { useState, useEffect } from 'react'
 import { Star, MapPin, Clock, Zap, Percent } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import Image from 'next/image'
+import Link from 'next/link'
+import BookingModal from './BookingModal'
+
+type HotelEntry = {
+  _id: string;
+  name: string;
+  description: string;
+  city: string;
+  location: string;
+  image: string;
+  video: string;
+};
+
+type SeaTripEntry = {
+  _id: string;
+  name: string;
+  description: string;
+  price: string;
+  discount: string;
+  start_time: string;
+  end_time: string;
+  transportation: string;
+  total_price: string;
+  image: string;
+  video: string;
+};
+
+type SafariTripEntry = {
+  _id: string;
+  name: string;
+  description: string;
+  price: string;
+  image: string;
+  start_time: string;
+  end_time: string;
+  transportation: string;
+  video: string;
+  total_price: string;
+};
+
+type TripItem = {
+  id: string;
+  type: 'hotel' | 'seaTrip' | 'safariTrip';
+  name: string;
+  description: string;
+  image: string;
+  location?: string;
+  city?: string;
+  duration?: string;
+  price?: string;
+  total_price?: string;
+  discount?: string;
+  start_time?: string;
+  end_time?: string;
+  transportation?: string;
+  rating?: number;
+  reviews?: number;
+};
 
 const Trips = () => {
-  const tours = [
-    {
-      id: 1,
-      image: "https://placehold.co/600x400.jpg",
-      category: "Featured",
-      categoryColor: "bg-blue-500",
-      title: "Acropolis, Parthenon, Plaka District 3 Day Athens Tour",
-      location: "Abu Dhabi, Dubai",
-      duration: "3 Days - 4 Nights",
-      rating: 4.8,
-      reviews: 120,
-      originalPrice: 300,
-      currentPrice: 245,
-      discount: "25% Off",
-    },
-    {
-      id: 2,
-      image: "https://placehold.co/600x400.jpg",
-      category: "Discount",
-      categoryColor: "bg-blue-500",
-      title: "Eiffel Tower, Louvre Museum, Disneyland 5 Day Paris Tour",
-      location: "Abu Dhabi, Dubai",
-      duration: "3 Days - 5 Nights",
-      rating: 4.8,
-      reviews: 120,
-      originalPrice: 300,
-      currentPrice: 245,
-      discount: "25% Off",
-    },
-    {
-      id: 3,
-      image: "https://placehold.co/600x400.jpg",
-      category: "Featured",
-      categoryColor: "bg-blue-500",
-      title: "Big Ben, Buckingham Palace, British Museum London Tour",
-      location: "Abu Dhabi, Dubai",
-      duration: "3 Days - 4 Nights",
-      rating: 4.8,
-      reviews: 120,
-      originalPrice: 300,
-      currentPrice: 245,
-      discount: "25% Off",
-    },
-    {
-      id: 4,
-      image: "https://placehold.co/600x400.jpg",
-      category: "Popular",
-      categoryColor: "bg-blue-500",
-      title: "Brandenburg Gate, Berlin Wall, Museum Island Berlin Tour",
-      location: "Abu Dhabi, Dubai",
-      duration: "3 Days - 4 Nights",
-      rating: 4.8,
-      reviews: 120,
-      originalPrice: 300,
-      currentPrice: 245,
-      discount: "25% Off",
-    },
-    {
-      id: 5,
-      image: "https://placehold.co/600x400.jpg",
-      category: "Popular",
-      categoryColor: "bg-blue-500",
-      title: "Blue Mosque, Hagia Sophia, Grand Bazaar Istanbul Tour",
-      location: "Abu Dhabi, Dubai",
-      duration: "3 Days - 4 Nights",
-      rating: 4.8,
-      reviews: 120,
-      originalPrice: 300,
-      currentPrice: 245,
-      discount: "25% Off",
-    },
-    {
-      id: 6,
-      image: "https://placehold.co/600x400.jpg",
-      category: "Discount",
-      categoryColor: "bg-blue-500",
-      title: "Burj Khalifa, Dubai Mall, Desert Safari Dubai Tour",
-      location: "Abu Dhabi, Dubai",
-      duration: "3 Days - 4 Nights",
-      rating: 4.8,
-      reviews: 120,
-      originalPrice: 300,
-      currentPrice: 245,
-      discount: "25% Off",
-    },
-  ]
+  const [trips, setTrips] = useState<TripItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [activeFilter, setActiveFilter] = useState('all');
+  const [error, setError] = useState<string | null>(null);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [selectedTrip, setSelectedTrip] = useState<TripItem | null>(null);
 
   const filterButtons = [
-    { label: "New", icon: null, active: true },
-    { label: "Featured", icon: Zap, active: false },
-    { label: "Discount", icon: Percent, active: false },
-    { label: "Popular", icon: null, active: false },
-  ]
+    { label: "All", value: "all", active: true },
+    { label: "Hotels", value: "hotels", active: false },
+    { label: "Sea Trips", value: "seaTrips", active: false },
+    { label: "Safari", value: "safari", active: false },
+  ];
+
+  // Fetch all data from APIs
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const [hotelsRes, seaTripsRes, safariTripsRes] = await Promise.all([
+        fetch('/api/hotels'),
+        fetch('/api/seaTrips'),
+        fetch('/api/safariTrips')
+      ]);
+
+      const hotelsData = await hotelsRes.json();
+      const seaTripsData = await seaTripsRes.json();
+      const safariTripsData = await safariTripsRes.json();
+
+      if (!hotelsData.success || !seaTripsData.success || !safariTripsData.success) {
+        throw new Error('Failed to fetch data from one or more APIs');
+      }
+
+      // Transform hotels data
+      const hotelItems: TripItem[] = hotelsData.data.map((hotel: HotelEntry) => ({
+        id: hotel._id,
+        type: 'hotel',
+        name: hotel.name,
+        description: hotel.description,
+        image: hotel.image,
+        city: hotel.city,
+        location: hotel.location,
+        rating: 4.5,
+        reviews: Math.floor(Math.random() * 200) + 50,
+      }));
+
+      // Transform sea trips data
+      const seaTripItems: TripItem[] = seaTripsData.data.map((trip: SeaTripEntry) => ({
+        id: trip._id,
+        type: 'seaTrip',
+        name: trip.name,
+        description: trip.description,
+        image: trip.image,
+        price: trip.price,
+        total_price: trip.total_price,
+        discount: trip.discount,
+        start_time: trip.start_time,
+        end_time: trip.end_time,
+        transportation: trip.transportation,
+        duration: `${trip.start_time} - ${trip.end_time}`,
+        rating: 4.8,
+        reviews: Math.floor(Math.random() * 200) + 50,
+      }));
+
+      // Transform safari trips data
+      const safariTripItems: TripItem[] = safariTripsData.data.map((trip: SafariTripEntry) => ({
+        id: trip._id,
+        type: 'safariTrip',
+        name: trip.name,
+        description: trip.description,
+        image: trip.image,
+        price: trip.price,
+        total_price: trip.total_price,
+        start_time: trip.start_time,
+        end_time: trip.end_time,
+        transportation: trip.transportation,
+        duration: `${trip.start_time} - ${trip.end_time}`,
+        rating: 4.7,
+        reviews: Math.floor(Math.random() * 200) + 50,
+      }));
+
+      // Combine all items
+      const allTrips = [...hotelItems, ...seaTripItems, ...safariTripItems];
+      setTrips(allTrips);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setError('Failed to load trips. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  // Filter trips based on active filter
+  const filteredTrips = trips.filter(trip => {
+    if (activeFilter === 'all') return true;
+    if (activeFilter === 'hotels') return trip.type === 'hotel';
+    if (activeFilter === 'seaTrips') return trip.type === 'seaTrip';
+    if (activeFilter === 'safari') return trip.type === 'safariTrip';
+    return true;
+  });
+
+  const handleFilterChange = (filterValue: string) => {
+    setActiveFilter(filterValue);
+  };
+
+  const handleBookNow = (trip: TripItem) => {
+    setSelectedTrip(trip);
+    setIsBookingModalOpen(true);
+  };
+
+  const handleBookingSuccess = (bookingData: any) => {
+    console.log('Booking successful:', bookingData);
+    // Additional logic can be added here if needed
+  };
+
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading amazing trips...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="text-center">
+          <p className="text-red-500 mb-4">{error}</p>
+          <Button onClick={fetchData} className="bg-orange-500 hover:bg-orange-600">
+            Try Again
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div id="trips" className="max-w-7xl mx-auto px-4 py-8">
       {/* Header Section */}
       <div className="text-center mb-8">
         <p className="text-blue-500 font-medium mb-2">Popular Tour</p>
@@ -111,13 +221,13 @@ const Trips = () => {
           {filterButtons.map((button, index) => (
             <Button
               key={index}
-              variant={button.active ? "default" : "outline"}
-              className={`${button.active
+              variant={activeFilter === button.value ? "default" : "outline"}
+              className={`${activeFilter === button.value
                 ? "bg-orange-500 hover:bg-orange-600 text-white"
                 : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50"
                 } px-6 py-2 rounded-full font-medium`}
+              onClick={() => handleFilterChange(button.value)}
             >
-              {button.icon && <button.icon className="w-4 h-4 mr-2" />}
               {button.label}
             </Button>
           ))}
@@ -125,72 +235,127 @@ const Trips = () => {
       </div>
 
       {/* Tour Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {tours.map((tour) => (
-          <div
-            key={tour.id}
-            className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
-          >
-            {/* Image Container */}
-            <div className="relative h-48 overflow-hidden">
-              <Image
-                src={tour.image}
-                alt={tour.title}
-                // width={600}
-                // height={400}
-                fill
-                className="w-full h-full object-cover" />
-              <Badge className={`absolute top-3 left-3 ${tour.categoryColor} text-white px-3 py-1 text-sm font-medium`}>
-                {tour.category}
-              </Badge>
+      {filteredTrips.length === 0 ? (
+        <div className="text-center py-12">
+          <p className="text-gray-500 text-lg">No trips found for the selected category.</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2  gap-6">
+          {filteredTrips.map((trip) => (
+            <div
+              key={trip.id}
+              className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+            >
+              {/* Image Container */}
+              <div className="relative h-[300px] overflow-hidden">
+                <Image
+                  src={trip.image}
+                  alt={trip.name}
+                  fill
+                  className="w-full h-full object-cover" />
+                <Badge className={`absolute top-3 left-3 ${
+                  trip.type === 'hotel' ? 'bg-blue-500' : 
+                  trip.type === 'seaTrip' ? 'bg-green-500' : 'bg-orange-500'
+                } text-white px-3 py-1 text-sm font-medium`}>
+                  {trip.type === 'hotel' ? 'Hotel' : 
+                   trip.type === 'seaTrip' ? 'Sea Trip' : 'Safari Trip'}
+                </Badge>
+                {trip.discount && (
+                  <Badge className="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 text-xs font-medium">
+                    {trip.discount}
+                  </Badge>
+                )}
+              </div>
+
+              {/* Card Content */}
+              <div className="p-5 flex flex-col">
+                {/* Rating */}
+                {/* <div className="flex items-center gap-2 mb-3">
+                  <div className="flex items-center gap-1">
+                    <Star className="w-4 h-4 fill-orange-400 text-orange-400" />
+                    <span className="font-semibold text-gray-900">{trip.rating}</span>
+                  </div>
+                  <span className="text-gray-500 text-sm">({trip.reviews} Reviews)</span>
+                </div> */}
+
+                {/* Title */}
+                <h3 className="font-bold text-gray-900 text-lg mb-3 line-clamp-2">{trip.name}</h3>
+
+                {/* Description */}
+                <p className="text-gray-600 text-sm mb-3 ">{trip.description}</p>
+
+                {/* Location and Duration */}
+                <div className="space-y-2 mb-4 ">
+                  {trip.location && (
+                    <div className="flex items-center gap-2 text-gray-600 text-sm">
+                      <MapPin className="w-4 h-4 text-orange-500" />
+                      <Link className='text-blue-600' href={trip.location}>location</Link>
+                    </div>
+                  )}
+                  {trip.city && (
+                    <div className="flex items-center gap-2 text-gray-600 text-sm">
+                      <MapPin className="w-4 h-4 text-orange-500" />
+                      <span>{trip.city}</span>
+                    </div>
+                  )}
+                  {trip.duration && (
+                    <div className="flex items-center gap-2 text-gray-600 text-sm">
+                      <Clock className="w-4 h-4 text-orange-500" />
+                      <span>{trip.duration}</span>
+                    </div>
+                  )}
+                  {trip.transportation && (
+                    <div className="flex items-center gap-2 text-gray-600 text-sm">
+                      <Zap className="w-4 h-4 text-orange-500" />
+                      <span>transportation includes</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Price and Book Button */}
+                <div className="flex mb-3 items-end justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl font-bold text-blue-600">
+                        {trip.total_price || trip.price || 'Contact'}
+                    </span>
+                    {trip.price && trip.total_price && trip.price !== trip.total_price && (
+                      <span className="text-gray-400 line-through text-sm">{trip.price}</span>
+                    )}
+                    <span className="text-gray-500 text-sm">
+                      {trip.type === 'hotel' ? '/ Night' : '/ Person'}
+                    </span>
+                  </div>
+                  <Button 
+                    onClick={() => handleBookNow(trip)}
+                    className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full font-medium"
+                  >
+                    Book Now
+                  </Button>
+                </div>
+              </div>
             </div>
+          ))}
+        </div>
+      )}
 
-            {/* Card Content */}
-            <div className="p-5">
-              {/* Rating */}
-              <div className="flex items-center gap-2 mb-3">
-                <div className="flex items-center gap-1">
-                  <Star className="w-4 h-4 fill-orange-400 text-orange-400" />
-                  <span className="font-semibold text-gray-900">{tour.rating}</span>
-                </div>
-                <span className="text-gray-500 text-sm">({tour.reviews} Reviews)</span>
-              </div>
-
-              {/* Title */}
-              <h3 className="font-bold text-gray-900 text-lg mb-3 line-clamp-2">{tour.title}</h3>
-
-              {/* Location and Duration */}
-              <div className="space-y-2 mb-4">
-                <div className="flex items-center gap-2 text-gray-600 text-sm">
-                  <MapPin className="w-4 h-4 text-orange-500" />
-                  <span>{tour.location}</span>
-                </div>
-                <div className="flex items-center gap-2 text-gray-600 text-sm">
-                  <Clock className="w-4 h-4 text-orange-500" />
-                  <span>{tour.duration}</span>
-                </div>
-              </div>
-
-              {/* Discount Badge */}
-              <div className="mb-4">
-                <Badge className="bg-red-500 text-white px-2 py-1 text-xs font-medium">{tour.discount}</Badge>
-              </div>
-
-              {/* Price and Book Button */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="text-2xl font-bold text-blue-600">${tour.currentPrice}</span>
-                  <span className="text-gray-400 line-through text-sm">${tour.originalPrice}</span>
-                  <span className="text-gray-500 text-sm">/ Person</span>
-                </div>
-                <Button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full font-medium">
-                  Book Now
-                </Button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      {/* Booking Modal */}
+      {selectedTrip && (
+        <BookingModal
+          isOpen={isBookingModalOpen}
+          onClose={() => {
+            setIsBookingModalOpen(false);
+            setSelectedTrip(null);
+          }}
+          trip={{
+            id: selectedTrip.id,
+            name: selectedTrip.name,
+            type: selectedTrip.type,
+            price: selectedTrip.price,
+            total_price: selectedTrip.total_price
+          }}
+          onBookingSuccess={handleBookingSuccess}
+        />
+      )}
     </div>
   )
 }

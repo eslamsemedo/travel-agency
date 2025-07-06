@@ -7,47 +7,47 @@ const Places = () => {
     {
       name: "France",
       trips: 40,
-      image: "https://placehold.co/600x400.jpg",
+      image: "/world/france.jpg",
     },
     {
       name: "Egypt",
       trips: 30,
-      image: "https://placehold.co/600x400.jpg",
+      image: "/world/egypt.jpg",
     },
     {
       name: "Bangladesh",
       trips: 23,
-      image: "https://placehold.co/600x400.jpg",
+      image: "/world/Bangladesh.jpg",
     },
     {
       name: "Australia",
       trips: 18,
-      image: "https://placehold.co/600x400.jpg",
+      image: "/world/Australia.jpg",
     },
     {
-      name: "Pakistan",
+      name: "China",
       trips: 24,
-      image: "https://placehold.co/600x400.jpg",
+      image: "/world/China.jpg",
     },
     {
-      name: "Indonesia",
+      name: "Russia",
       trips: 22,
-      image: "https://placehold.co/600x400.jpg",
+      image: "/world/russia.jpg",
     },
     {
       name: "India",
       trips: 20,
-      image: "https://placehold.co/600x400.jpg",
+      image: "/world/india.jpg",
     },
     {
       name: "Germany",
       trips: 15,
-      image: "https://placehold.co/600x400.jpg",
+      image: "/world/german.jpg",
     },
   ]
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 py-8">
+    <div id="places" className="w-full max-w-7xl mx-auto px-4 py-8">
       {/* Header Section */}
       <div className="flex items-center justify-between mb-8">
         <div>
@@ -58,7 +58,9 @@ const Places = () => {
             Around World
           </h1>
         </div>
-        <Button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-full">Browse All</Button>
+        <Button className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 border-0">
+          Book Your Flight Now
+        </Button>
       </div>
 
       {/* Destinations Grid */}
@@ -82,10 +84,10 @@ const Places = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/70" />
 
             {/* Trip Count Badge */}
-            <div className="absolute top-4 right-4 bg-white rounded-full w-12 h-12 flex flex-col items-center justify-center shadow-lg">
+            {/* <div className="absolute top-4 right-4 bg-white rounded-full w-12 h-12 flex flex-col items-center justify-center shadow-lg">
               <span className="text-blue-600 font-bold text-sm">{destination.trips}</span>
               <span className="text-blue-600 text-xs">Trips</span>
-            </div>
+            </div> */}
 
             {/* Content */}
             <div className="absolute bottom-0 left-0 right-0 p-6">

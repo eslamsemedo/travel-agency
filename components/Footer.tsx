@@ -62,7 +62,7 @@ const Footer = () => {
                 <div className="hidden lg:block flex-shrink-0">
                   <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-white/20">
                     <Image
-                      src="https://placehold.co/160x160.jpg?text=Travel+Couple"
+                      src="/imgs/logo4.png"
                       alt="Travel couple"
                       width={260}
                       height={260}
@@ -78,7 +78,7 @@ const Footer = () => {
 
 
       {/* Footer */}
-      <footer className="bg-slate-900 text-white  px-3 pt-[230px] pb-8">
+      <footer id="footer" className="bg-slate-900 text-white  px-3 pt-[230px] pb-8">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
             {/* Brand */}
@@ -97,7 +97,7 @@ const Footer = () => {
                 <span className="text-2xl font-bold"><span className='text-orange-400'>MY</span><span className='text-blue-500'>SKY</span></span>
               </div>
               <p className="text-gray-400 text-sm mb-6 leading-relaxed">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam venenatis imperdiet titor sodales vulputate
+                MY SKY makes travel easy, exciting, and unforgettable—from beach getaways to adventure tours.
               </p>
               <div>
                 <p className="text-sm mb-3">Connect with us</p>
@@ -175,7 +175,7 @@ const Footer = () => {
 
             {/* Tour Gallery & Quick Contact */}
             <div>
-              <h3 className="font-semibold mb-4">Tour Gallery</h3>
+              {/* <h3 className="font-semibold mb-4">Tour Gallery</h3>
               <div className="grid grid-cols-3 gap-2 mb-6">
                 {[1, 2, 3, 4, 5, 6].map((i) => (
                   <div key={i} className="aspect-square rounded-lg overflow-hidden">
@@ -188,17 +188,17 @@ const Footer = () => {
                     />
                   </div>
                 ))}
-              </div>
+              </div> */}
 
               <h3 className="font-semibold mb-4">Quick Contact</h3>
               <div className="space-y-3 text-sm text-gray-400">
                 <div className="flex items-start">
                   <MapPin className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" />
-                  <span>3600 Las Vegas Blvd S, Las Vegas, NV</span>
+                  <span>Hurghada, Egypt</span>
                 </div>
                 <div className="flex items-center">
                   <Phone className="w-4 h-4 mr-2 flex-shrink-0" />
-                  <span>+9656 55 45 44</span>
+                  <span>+20 1101515111</span>
                 </div>
                 <div className="flex items-center">
                   <Mail className="w-4 h-4 mr-2 flex-shrink-0" />

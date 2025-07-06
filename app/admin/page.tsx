@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { CldUploadWidget } from 'next-cloudinary'
 import { Button } from '@/components/ui/button'
-import { ImageIcon } from 'lucide-react'
+import { ImageIcon, LogOut, User } from 'lucide-react'
+import { useRouter } from 'next/navigation';
 
 // Hotel type (updated fields)
 type HotelEntry = {
@@ -82,7 +83,10 @@ const emptySafariTripForm: Omit<SafariTripEntry, '_id'> = {
 };
 
 const AdminPanel = () => {
-  const [panel, setPanel] = useState<'hotel' | 'seatrip' | 'safaritrip'>('hotel');
+  const [panel, setPanel] = useState<'hotel' | 'seatrip' | 'safaritrip' | 'bookings'>('hotel');
+  const [adminInfo, setAdminInfo] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   // Hotel state
   const [hotelData, setHotelData] = useState<HotelEntry[]>(initialHotelData);
@@ -101,6 +105,44 @@ const AdminPanel = () => {
   const [safariTripForm, setSafariTripForm] = useState<typeof emptySafariTripForm>(emptySafariTripForm);
   const [safariTripEditingId, setSafariTripEditingId] = useState<string | null>(null);
   const [safariTripLoading, setSafariTripLoading] = useState(true);
+
+  // Bookings state
+  const [bookingsData, setBookingsData] = useState<any[]>([]);
+  const [bookingsLoading, setBookingsLoading] = useState(true);
+  const [statusUpdateLoading, setStatusUpdateLoading] = useState<string | null>(null);
+  const [statusUpdateError, setStatusUpdateError] = useState<string | null>(null);
+  const [statusEdits, setStatusEdits] = useState<{ [id: string]: string }>({});
+
+  // Check authentication and fetch admin info
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        console.log('Checking authentication...');
+        const response = await fetch('/api/auth/me', {
+          credentials: 'include', // Important for cookies
+        });
+        console.log('Auth response status:', response.status);
+        
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Auth successful, admin info:', data.admin);
+          setAdminInfo(data.admin);
+        } else {
+          console.log('Auth failed, redirecting to login');
+          router.push('/admin/login');
+          return;
+        }
+      } catch (error) {
+        console.error('Auth check error:', error);
+        router.push('/admin/login');
+        return;
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, [router]);
 
   // Fetch hotel data from API
   useEffect(() => {
@@ -194,6 +236,37 @@ const AdminPanel = () => {
     };
 
     fetchSafariTripData();
+  }, []);
+
+  // Fetch bookings data from API
+  useEffect(() => {
+    const fetchBookingsData = async () => {
+      try {
+        setBookingsLoading(true);
+
+        const requestOptions = {
+          method: "GET",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        };
+
+        const response = await fetch("/api/bookings", requestOptions);
+
+        if (response.ok) {
+          const data = await response.json();
+          setBookingsData(data.data);
+        } else {
+          console.error("Failed to fetch bookings data");
+        }
+      } catch (error) {
+        console.error("Error fetching bookings data:", error);
+      } finally {
+        setBookingsLoading(false);
+      }
+    };
+
+    fetchBookingsData();
   }, []);
 
   // Hotel handlers
@@ -326,7 +399,7 @@ const AdminPanel = () => {
         start_time: seaTripForm.start_time,
         end_time: seaTripForm.end_time,
         transportation: seaTripForm.transportation,
-        total_price: String(parseFloat(seaTripForm.transportation) + parseFloat(seaTripForm.price) - parseFloat(seaTripForm.discount)),
+        total_price: String((parseFloat(seaTripForm.transportation) + parseFloat(seaTripForm.price)) * (1-parseFloat(seaTripForm.discount)/100) + String(seaTripForm.price.split(" ")[1])),
         image: seaTripForm.image,
         video: seaTripForm.video,
       }
@@ -425,7 +498,7 @@ const AdminPanel = () => {
         start_time: safariTripForm.start_time,
         end_time: safariTripForm.end_time,
         transportation: safariTripForm.transportation,
-        total_price: safariTripForm.total_price,
+        total_price: String((parseFloat(safariTripForm.transportation) + parseFloat(safariTripForm.price)) + String(safariTripForm.price.split(" ")[1])),
         image: safariTripForm.image,
         video: safariTripForm.video,
       }
@@ -508,8 +581,76 @@ const AdminPanel = () => {
     setSafariTripForm(emptySafariTripForm);
   };
 
+  // Logout handler
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+      });
+      router.push('/admin/login');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
+
+  // Bookings status update handler
+  const handleStatusChange = (id: string, newStatus: string) => {
+    setStatusEdits((prev) => ({ ...prev, [id]: newStatus }));
+  };
+
+  const handleStatusUpdate = async (id: string) => {
+    setStatusUpdateLoading(id);
+    setStatusUpdateError(null);
+    try {
+      const response = await fetch(`/api/bookings/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: statusEdits[id] }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        // Refresh bookings data
+        setBookingsData((prev) => prev.map((b) => b._id === id ? { ...b, status: statusEdits[id] } : b));
+      } else {
+        setStatusUpdateError(data.message || 'Failed to update status');
+      }
+    } catch (error) {
+      setStatusUpdateError('Network error');
+    } finally {
+      setStatusUpdateLoading(null);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-lg text-gray-600">Loading...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="p-6 max-w-6xl mx-auto">
+      {/* Header with admin info and logout */}
+      <div className="flex justify-between items-center mb-8 bg-white p-4 rounded-lg shadow">
+        <div className="flex items-center gap-3">
+          <User className="w-5 h-5 text-blue-600" />
+          <div>
+            <h1 className="text-xl font-semibold text-gray-900">Admin Panel</h1>
+            <p className="text-sm text-gray-600">
+              Welcome, {adminInfo?.username} ({adminInfo?.role})
+            </p>
+          </div>
+        </div>
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
+        >
+          <LogOut className="w-4 h-4" />
+          Logout
+        </button>
+      </div>
+
       <div className="flex justify-center gap-4 mb-8">
         <button
           className={`px-4 py-2 rounded font-semibold transition ${panel === 'hotel' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'}`}
@@ -528,6 +669,12 @@ const AdminPanel = () => {
           onClick={() => setPanel('safaritrip')}
         >
           Safari Trips Panel
+        </button>
+        <button
+          className={`px-4 py-2 rounded font-semibold transition ${panel === 'bookings' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'}`}
+          onClick={() => setPanel('bookings')}
+        >
+          Bookings Panel
         </button>
       </div>
       {panel === 'hotel' ? (
@@ -1004,7 +1151,7 @@ const AdminPanel = () => {
             )}
           </div>
         </>
-      ) : (
+      ) : panel === 'safaritrip' ? (
         <>
           <h1 className="text-3xl font-bold mb-8 text-center">Safari Trips Admin Panel</h1>
           <form
@@ -1242,9 +1389,98 @@ const AdminPanel = () => {
             )}
           </div>
         </>
-      )}
+      ) : panel === 'bookings' ? (
+        <>
+          <h1 className="text-3xl font-bold mb-8 text-center">Bookings Panel</h1>
+          <div className="overflow-x-auto">
+            {bookingsLoading ? (
+              <div className="flex justify-center items-center py-8">
+                <div className="text-lg text-gray-600">Loading bookings...</div>
+              </div>
+            ) : (
+              <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
+                <thead className="bg-blue-600 text-white">
+                  <tr>
+                    <th className="py-2 px-3">Name</th>
+                    <th className="py-2 px-3">Nationality</th>
+                    <th className="py-2 px-3">Phone Number</th>
+                    <th className="py-2 px-3">Trip Name</th>
+                    <th className="py-2 px-3">Trip Type</th>
+                    <th className="py-2 px-3">Trip Price</th>
+                    <th className="py-2 px-3">Status</th>
+                    <th className="py-2 px-3">Booking Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {bookingsData.length === 0 ? (
+                    <tr>
+                      <td colSpan={8} className="py-4 text-center text-gray-500">
+                        No bookings found
+                      </td>
+                    </tr>
+                  ) : (
+                    bookingsData.map((booking) => (
+                      <tr key={booking._id} className="border-b hover:bg-gray-50">
+                        <td className="py-2 px-3 text-center">{booking.name}</td>
+                        <td className="py-2 px-3 text-center">{booking.nationality}</td>
+                        <td className="py-2 px-3 text-center">{booking.phoneNumber}</td>
+                        <td className="py-2 px-3 text-center">{booking.tripName}</td>
+                        <td className="py-2 px-3 text-center">
+                          <span className={`px-2 py-1 rounded text-xs font-medium ${
+                            booking.tripType === 'hotel' ? 'bg-blue-100 text-blue-800' :
+                            booking.tripType === 'seaTrip' ? 'bg-green-100 text-green-800' :
+                            'bg-orange-100 text-orange-800'
+                          }`}>
+                            {booking.tripType === 'hotel' ? 'Hotel' : 
+                             booking.tripType === 'seaTrip' ? 'Sea Trip' : 'Safari Trip'}
+                          </span>
+                        </td>
+                        <td className="py-2 px-3 text-center">{booking.tripPrice}</td>
+                        <td className="py-2 px-3 text-center">
+                          <span className={`px-2 py-1 rounded text-xs font-medium ${
+                            booking.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                            booking.status === 'confirmed' ? 'bg-green-100 text-green-800' :
+                            'bg-red-100 text-red-800'
+                          }`}>
+                            {booking.status}
+                          </span>
+                          <div className="mt-2 flex items-center gap-2 justify-center">
+                            <select
+                              value={statusEdits[booking._id] ?? booking.status}
+                              onChange={e => handleStatusChange(booking._id, e.target.value)}
+                              className="border rounded px-2 py-1 text-xs"
+                              disabled={statusUpdateLoading === booking._id}
+                            >
+                              <option value="pending">pending</option>
+                              <option value="confirmed">confirmed</option>
+                              <option value="cancelled">cancelled</option>
+                            </select>
+                            <button
+                              onClick={() => handleStatusUpdate(booking._id)}
+                              disabled={statusUpdateLoading === booking._id || (statusEdits[booking._id] ?? booking.status) === booking.status}
+                              className="bg-blue-500 text-white px-2 py-1 rounded text-xs hover:bg-blue-600 disabled:opacity-50"
+                            >
+                              {statusUpdateLoading === booking._id ? 'Saving...' : 'Save'}
+                            </button>
+                          </div>
+                          {statusUpdateError && statusUpdateLoading === null && (
+                            <div className="text-xs text-red-500 mt-1">{statusUpdateError}</div>
+                          )}
+                        </td>
+                        <td className="py-2 px-3 text-center">
+                          {new Date(booking.bookingDate).toLocaleDateString()}
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            )}
+          </div>
+        </>
+      ) : null}
     </div>
   );
-};
+}
 
 export default AdminPanel;

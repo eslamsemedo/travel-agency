@@ -2,14 +2,37 @@
 import React from 'react'
 import { Facebook, Twitter, Instagram, Youtube, X, Send, MapPin, ChevronDown, ShoppingCart, Search, Menu, Phone } from 'lucide-react'
 import Image from 'next/image';
+import Link from 'next/link';
 
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
+
   const handleMenuClick = () => {
-    // Logic to handle menu click, e.g., toggle a sidebar or dropdown
     setMenuOpen(!menuOpen);
   }
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+    setMenuOpen(false); // Close mobile menu after navigation
+  };
+
+  const navigationItems = [
+    { label: "Home", id: "hero" },
+    { label: "Destinations", id: "places" },
+    { label: "About", id: "service" },
+    { label: "Trips", id: "trips" },
+    { label: "Why Us", id: "special" },
+    { label: "Reviews", id: "reviews" },
+    { label: "Contact", id: "footer" },
+  ];
+
   return (
     <div
       className='w-full bg-blue-600 relative h-[80px]'
@@ -18,7 +41,7 @@ const Header = () => {
         <div className="text-xs md:text-base text-center md:text-left">
           <p className="flex flex-col md:flex-row items-center gap-1 md:gap-2">
             <span className="flex items-center gap-1">
-              <MapPin className="w-4 h-4" /> Home
+              <MapPin className="w-4 h-4 " /> <Link className='hover:text-blue-300' href={"https://maps.app.goo.gl/mMJuw4dU5TT1YZu76"}>Home</Link>
             </span>
             <span className="hidden md:inline">|</span>
             <span className="flex items-center gap-1">
@@ -27,13 +50,15 @@ const Header = () => {
           </p>
         </div>
         <div className="flex gap-2 flex-row justify-center">
-          <Facebook className="w-4 h-4 md:w-5 md:h-5" />
-          <Twitter className="w-4 h-4 md:w-5 md:h-5" />
-          <Instagram className="w-4 h-4 md:w-5 md:h-5" />
-          <Youtube className="w-4 h-4 md:w-5 md:h-5" />
+          <Link href={""}>
+            <Facebook className="w-4 h-4 md:w-5 md:h-5" />
+          </Link>
+          <Link href={"https://www.instagram.com/mysky_travel?igsh=M21ueGdkc3EwZXg5"}>
+            <Instagram className="w-4 h-4 md:w-5 md:h-5" />
+          </Link>
         </div>
       </div>
-      <div className=' absolute flex justify-between items-center p-5 md:top-[50%] md:w-[90%] w-full md:rounded-tr-full md:rounded-br-full h-full bg-white'>
+      <div className='z-40 absolute flex justify-between items-center p-5 md:top-[50%] md:w-[90%] w-full md:rounded-tr-full md:rounded-br-full h-full bg-white'>
         {/* Left - Logo and Nav */}
         <div className="flex items-center gap-6">
           {/* Logo */}
@@ -58,12 +83,15 @@ const Header = () => {
         <div className="flex items-center gap-6">
 
           <ul className="max-[1135px]:hidden flex items-center gap-6 text-black font-medium">
-            <li className="cursor-pointer flex items-center gap-2">Home</li>
-            <li className="cursor-pointer flex items-center gap-2">Destination</li>
-            <li className="cursor-pointer flex items-center gap-2">Tour</li>
-            <li className="cursor-pointer flex items-center gap-2">Blog</li>
-            <li className="cursor-pointer flex items-center gap-2">Pages</li>
-            <li className="cursor-pointer flex items-center gap-2">Contact</li>
+            {navigationItems.map((item, index) => (
+              <li
+                key={index}
+                className="cursor-pointer flex items-center gap-2 hover:text-orange-400 transition-colors duration-200"
+                onClick={() => scrollToSection(item.id)}
+              >
+                {item.label}
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -71,21 +99,21 @@ const Header = () => {
         <div className="flex items-center gap-6 h-full">
           {/* Call Info */}
           <div className="flex items-center space-x-2 max-[650px]:hidden">
-            <div className="w-10 h-10 rounded-full bg-orange-400 flex items-center justify-center text-white">
+            <Link href={"https://wa.me/+201101515111"} className="w-10 h-10 rounded-full bg-orange-400 flex items-center justify-center text-white">
               <Phone className="w-6 h-6" />
-            </div>
+            </Link>
             <div className="text-sm ">
               <p className="text-gray-600">Call Anytime</p>
-              <p className="font-bold">+20 1099600120</p>
+              <p className="font-bold">+20 1101515111</p>
             </div>
           </div>
 
           {/* Cart and Search */}
           <div className="flex items-center space-x-4">
-            <div className="relative">
+            {/* <div className="relative">
               <ShoppingCart className="w-6 h-6 text-black" />
               <span className="absolute -top-2 -right-2 bg-orange-400 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">3</span>
-            </div>
+            </div> */}
 
             <div>
               <Search className="w-5 h-5 text-black" />
@@ -127,12 +155,15 @@ const Header = () => {
             <X /> Close
           </button>
           <ul className="space-y-4 text-lg font-medium mt-16">
-            <li className="cursor-pointer flex items-center gap-2">Home</li>
-            <li className="cursor-pointer flex items-center gap-2">Destination</li>
-            <li className="cursor-pointer flex items-center gap-2">Tour</li>
-            <li className="cursor-pointer flex items-center gap-2">Blog</li>
-            <li className="cursor-pointer flex items-center gap-2">Pages</li>
-            <li className="cursor-pointer flex items-center gap-2">Contact</li>
+            {navigationItems.map((item, index) => (
+              <li
+                key={index}
+                className="cursor-pointer flex items-center gap-2 hover:text-orange-400 transition-colors duration-200"
+                onClick={() => scrollToSection(item.id)}
+              >
+                {item.label}
+              </li>
+            ))}
           </ul>
         </div>
       </div>

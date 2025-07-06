@@ -7,28 +7,28 @@ const reviews = () => {
     {
       id: 1,
       rating: 5,
-      text: "Lorem ipsum dolor amet consectetur adipiscing sed do eiusmod tempor incididunt labore et dolore magna aliqua ipsum suspen disse ultrices gravida Risus",
-      name: "Amy Johnson",
-      role: "Traveler",
+      text: "Absolutely flawless from inquiry to touchdown back home! MYSKY’s team built a custom Morocco itinerary that blended souks, desert glamping, and a sunrise hot-air balloon — all I had to do was show up and smile.",
+      name: "Sophie Martin",
+      role: "Solo Adventurer",
     },
     {
       id: 2,
       rating: 5,
-      text: "Lorem ipsum dolor amet consectetur adipiscing sed do eiusmod tempor incididunt labore et dolore magna aliqua ipsum suspen disse ultrices gravida Risus",
-      name: "Luaka Smith",
-      role: "Traveler",
+      text: "We booked a two-week family trip across Italy and every transfer, tour, and trattoria felt hand-picked just for us. The kids are still talking about making pizza in Naples, and I’m still amazed we never once felt rushed.",
+      name: "Aaron Patel",
+      role: "Family Traveler",
     },
     {
       id: 3,
       rating: 5,
-      text: "Lorem ipsum dolor amet consectetur adipiscing sed do eiusmod tempor incididunt labore et dolore magna aliqua ipsum suspen disse ultrices gravida Risus",
-      name: "Mike Hardson",
-      role: "Traveler",
+      text: "As a last-minute backpacker I expected compromises, but MYSKY scored me mountain-view hostels in Peru and even snagged a spot on the coveted dawn entry to Machu Picchu. Best spontaneous decision I’ve ever made!",
+      name: "Leila Chen",
+      role: "Backpacker",
     },
-  ]
+  ];
 
   return (
-    <section className="py-16 px-4 bg-gray-50">
+    <section id="reviews" className="py-16 px-4 bg-gray-50">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
@@ -62,12 +62,12 @@ const reviews = () => {
           ))}
         </div>
 
-        {/* Navigation Dots */}
+        {/* Navigation Dots
         <div className="flex justify-center space-x-2">
           <button className="w-3 h-3 rounded-full bg-orange-500"></button>
           <button className="w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 transition-colors"></button>
           <button className="w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400 transition-colors"></button>
-        </div>
+        </div> */}
       </div>
     </section>
   )

@@ -5,28 +5,28 @@ import { Gift, MapPin, Users, Heart } from "lucide-react"
 const special = () => {
   const features = [
     {
-      image: "https://placehold.co/600x400.jpg?text=Travel+Image",
+      image: "/speical/guides.png",
       icon: Gift,
       stat: "2000+",
       title: "Our Worldwide Guides",
       alt: "Travelers with backpacks exploring",
     },
     {
-      image: "https://placehold.co/600x400.jpg?text=Tour+Agency",
+      image: "/speical/trusted.png",
       icon: MapPin,
       stat: "100%",
       title: "Trusted Tour Agency",
       alt: "People planning travel with maps",
     },
     {
-      image: "https://placehold.co/600x400.jpg?text=Tour+Agency",
+      image: "/speical/tears.png",
       icon: Users,
       stat: "12+",
       title: "Years of Travel Experience",
       alt: "Travel luggage and accessories",
     },
     {
-      image: "https://placehold.co/600x400.jpg?text=Tour+Agency",
+      image: "/speical/happy.png",
       icon: Heart,
       stat: "98%",
       title: "of Our Travelers are Happy",
@@ -35,12 +35,12 @@ const special = () => {
   ]
 
   return (
-    <section className="py-16 px-4 bg-gray-50">
+    <section id="special" className="py-16 px-4 bg-gray-50">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
           <p className="text-gray-500 text-sm font-medium tracking-wider uppercase mb-4"><span className='text-orange-400'>MY</span><span className='text-blue-500'>SKY</span> SPECIALS</p>
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-800">Why Travel with Tutive?</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-800">Why Travel with <span className='text-orange-400'>MY</span><span className='text-blue-500'>SKY</span> ?</h2>
         </div>
 
         {/* Features Grid */}

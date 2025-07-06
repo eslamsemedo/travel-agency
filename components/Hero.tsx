@@ -1,7 +1,7 @@
 "use client"
 import React from 'react'
 import Image from 'next/image'
-import { MapPin, Timer, CreditCard, CableCar, Search, Play } from 'lucide-react'
+import { MapPin, Timer, CreditCard, CableCar, Search, Play, Plane, Hotel, Crown, Car, FileText, Users } from 'lucide-react'
 const bg = '/imgs/1.jpg'
 
 import { TypeAnimation } from 'react-type-animation'
@@ -9,8 +9,7 @@ import { TypeAnimation } from 'react-type-animation'
 
 const Hero = () => {
   return (
-    <>
-      <div className="w-full h-screen relative -z-10  ">
+    <div id="hero" className="relative min-h-screen bg-gradient-to-br from-blue-50 to-orange-50">
         <Image
           src={bg}
           alt="Gym banner – man lifting weights"
@@ -44,50 +43,62 @@ const Hero = () => {
           </div>
         </div>
 
+        {/* Features Showcase */}
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/60 to-transparent pb-8">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+              {/* Flight Tickets */}
+              <div className="group bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center hover:bg-white/20 transition-all duration-300 hover:scale-105 border border-white/20">
+                <div className="bg-orange-400/20 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 group-hover:bg-orange-400/30 transition-colors">
+                  <Plane className="w-6 h-6 text-orange-400" />
+                </div>
+                <h3 className="text-white font-semibold text-sm">Flight Tickets</h3>
+              </div>
 
-        <div className='absolute bottom-[5%] md:bottom-[20%] left-[5%] md:left-[10%] right-[5%] md:right-[10%] min-h-[100px] z-10 bg-white flex flex-col md:flex-row items-center justify-between rounded-lg overflow-hidden'>
-          <div className="flex flex-col md:flex-row justify-between items-center p-2  divide-gray-200 h-full w-full">
-            {/* Item */}
-            <div className="flex items-center px-4 md:px-6 py-4 space-x-3 w-full md:w-auto">
-              <MapPin className="w-5 h-5 md:w-6 md:h-6 text-orange-400" />
-              <div>
-                <p className="font-semibold text-black text-sm md:text-base">Destination</p>
-                <p className="text-gray-500 text-xs md:text-sm">Where to Go ?</p>
+              {/* Hotel Booking */}
+              <div className="group bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center hover:bg-white/20 transition-all duration-300 hover:scale-105 border border-white/20">
+                <div className="bg-blue-400/20 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 group-hover:bg-blue-400/30 transition-colors">
+                  <Hotel className="w-6 h-6 text-blue-400" />
+                </div>
+                <h3 className="text-white font-semibold text-sm">Hotel Booking</h3>
+              </div>
+
+              {/* VIP Lounge */}
+              <div className="group bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center hover:bg-white/20 transition-all duration-300 hover:scale-105 border border-white/20">
+                <div className="bg-purple-400/20 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 group-hover:bg-purple-400/30 transition-colors">
+                  <Crown className="w-6 h-6 text-purple-400" />
+                </div>
+                <h3 className="text-white font-semibold text-sm">VIP Lounge</h3>
+              </div>
+
+              {/* Transportation */}
+              <div className="group bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center hover:bg-white/20 transition-all duration-300 hover:scale-105 border border-white/20">
+                <div className="bg-green-400/20 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 group-hover:bg-green-400/30 transition-colors">
+                  <Car className="w-6 h-6 text-green-400" />
+                </div>
+                <h3 className="text-white font-semibold text-sm">Transportation</h3>
+              </div>
+
+              {/* Visa & Tour Planning */}
+              <div className="group bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center hover:bg-white/20 transition-all duration-300 hover:scale-105 border border-white/20">
+                <div className="bg-red-400/20 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 group-hover:bg-red-400/30 transition-colors">
+                  <FileText className="w-6 h-6 text-red-400" />
+                </div>
+                <h3 className="text-white font-semibold text-sm">Visa & Tours</h3>
+              </div>
+
+              {/* Meet & Assist */}
+              <div className="group bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center hover:bg-white/20 transition-all duration-300 hover:scale-105 border border-white/20">
+                <div className="bg-pink-400/20 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 group-hover:bg-pink-400/30 transition-colors">
+                  <Users className="w-6 h-6 text-pink-400" />
+                </div>
+                <h3 className="text-white font-semibold text-sm">Meet & Assist</h3>
               </div>
             </div>
-
-            <div className="flex items-center px-4 md:px-6 py-4 space-x-3 w-full md:w-auto">
-              <CableCar className="w-5 h-5 md:w-6 md:h-6 text-orange-400" />
-              <div>
-                <p className="font-semibold text-black text-sm md:text-base">Trip Type</p>
-                <p className="text-gray-500 text-xs md:text-sm">Hiking</p>
-              </div>
-            </div>
-
-            <div className="flex items-center px-4 md:px-6 py-4 space-x-3 w-full md:w-auto">
-              <Timer className="w-5 h-5 md:w-6 md:h-6 text-orange-400" />
-              <div>
-                <p className="font-semibold text-black text-sm md:text-base">Duration</p>
-                <p className="text-gray-500 text-xs md:text-sm">3 Days 5 Nights</p>
-              </div>
-            </div>
-
-            <div className="flex items-center px-4 md:px-6 py-4 space-x-3 w-full md:w-auto">
-              <CreditCard className="w-5 h-5 md:w-6 md:h-6 text-orange-400" />
-              <div>
-                <p className="font-semibold text-black text-sm md:text-base">Price</p>
-                <p className="text-gray-500 text-xs md:text-sm">$200 - $3000</p>
-              </div>
-            </div>
-            <button className="bg-orange-400 text-white font-semibold px-6 md:px-8 py-4 flex items-center justify-center space-x-2 h-full w-full md:w-auto rounded-lg ">
-              <span className="text-sm md:text-base">Search</span>
-              <Search className="w-5 h-5 md:w-6 md:h-6 text-white" />
-            </button>
           </div>
         </div>
 
       </div>
-    </>
   )
 }
 

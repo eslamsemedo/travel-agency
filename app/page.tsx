@@ -15,9 +15,9 @@ export default function Home() {
       <Hero />
       <Places />
       <Service />
-      <Awards />
       <Trips />
       <Special />
+      <Awards />
       <Reviews />
       <Footer />
       {/* Uncomment the line above to include the Special component */}
