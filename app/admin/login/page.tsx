@@ -29,24 +29,7 @@ const AdminLogin = () => {
       // Check if cookie was set
 
       if (response.ok) {
-        setError('Login successful! Redirecting...');
-        
-        // Clear any existing error state
-        setError('');
-        
-        // Use a more reliable redirect approach
-        setTimeout(() => {
-          try {
-            router.push('/admin');
-          } catch (error) {
-            window.location.href = '/admin';
-          }
-        }, 1000);
-        
-        // Additional fallback redirect
-        setTimeout(() => {
-          window.location.href = '/admin';
-        }, 3000);
+        router.push('/admin');
       } else {
         setError(data.error || 'Invalid credentials');
       }

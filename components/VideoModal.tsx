@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react';
+import React, { useState } from 'react';
 import { X } from 'lucide-react';
 
 interface VideoModalProps {
@@ -26,6 +26,12 @@ const VideoModal: React.FC<VideoModalProps> = ({
   const videoId = getYouTubeVideoId(videoUrl);
   const embedUrl = videoId ? `https://www.youtube.com/embed/${videoId}` : '';
 
+  const [loading, setLoading] = useState(true);
+
+  React.useEffect(() => {
+    setLoading(true); // Reset loading when video changes or modal opens
+  }, [embedUrl, isOpen]);
+
   if (!isOpen) return null;
 
   return (
@@ -46,6 +52,11 @@ const VideoModal: React.FC<VideoModalProps> = ({
         <div className="p-6">
           {embedUrl ? (
             <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+              {loading && (
+                <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-white bg-opacity-80 z-10">
+                  <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500 border-solid"></div>
+                </div>
+              )}
               <iframe
                 src={embedUrl}
                 title={title}
@@ -53,6 +64,7 @@ const VideoModal: React.FC<VideoModalProps> = ({
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
+                onLoad={() => setLoading(false)}
               />
             </div>
           ) : (

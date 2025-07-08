@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 
 // Hotel type (updated fields)
 type HotelEntry = {
-  _id: number;
+  _id: string | number;
   name: string;
   description: string;
   city: string;
@@ -91,20 +91,26 @@ const AdminPanel = () => {
   // Hotel state
   const [hotelData, setHotelData] = useState<HotelEntry[]>(initialHotelData);
   const [hotelForm, setHotelForm] = useState<typeof emptyHotelForm>(emptyHotelForm);
-  const [hotelEditingId, setHotelEditingId] = useState<number | null>(null);
+  const [hotelEditingId, setHotelEditingId] = useState<string | number | null>(null);
   const [hotelLoading, setHotelLoading] = useState(true);
+  const [hotelActionLoading, setHotelActionLoading] = useState(false); // <-- Add
+  const [hotelDeleteLoadingId, setHotelDeleteLoadingId] = useState<string | number | null>(null); // <-- Add
 
   // Sea Trip state
   const [seaTripData, setSeaTripData] = useState<SeaTripEntry[]>(initialSeaTripData);
   const [seaTripForm, setSeaTripForm] = useState<typeof emptySeaTripForm>(emptySeaTripForm);
   const [seaTripEditingId, setSeaTripEditingId] = useState<string | null>(null);
   const [seaTripLoading, setSeaTripLoading] = useState(true);
+  const [seaTripActionLoading, setSeaTripActionLoading] = useState(false); // <-- Add
+  const [seaTripDeleteLoadingId, setSeaTripDeleteLoadingId] = useState<string | null>(null); // <-- Add
 
   // Safari Trip state
   const [safariTripData, setSafariTripData] = useState<SafariTripEntry[]>(initialSafariTripData);
   const [safariTripForm, setSafariTripForm] = useState<typeof emptySafariTripForm>(emptySafariTripForm);
   const [safariTripEditingId, setSafariTripEditingId] = useState<string | null>(null);
   const [safariTripLoading, setSafariTripLoading] = useState(true);
+  const [safariTripActionLoading, setSafariTripActionLoading] = useState(false); // <-- Add
+  const [safariTripDeleteLoadingId, setSafariTripDeleteLoadingId] = useState<string | null>(null); // <-- Add
 
   // Bookings state
   const [bookingsData, setBookingsData] = useState<any[]>([]);
@@ -272,6 +278,7 @@ const AdminPanel = () => {
 
   const handleHotelSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setHotelActionLoading(true); // <-- Add
     try {
       // const formData = new FormData();
       // formData.append('name', hotelForm.name);
@@ -311,7 +318,7 @@ const AdminPanel = () => {
           const updatedHotel = await response.json();
           setHotelData((prev) =>
             prev.map((item) =>
-              item._id === hotelEditingId ? updatedHotel : item
+              item._id === hotelEditingId ? updatedHotel.data : item
             )
           );
           setHotelEditingId(null);
@@ -330,7 +337,7 @@ const AdminPanel = () => {
 
         if (response.ok) {
           const newHotel = await response.json();
-          setHotelData((prev) => [...prev, newHotel]);
+          setHotelData((prev) => [...prev, newHotel.data]);
         } else {
           // console.error('Failed to create hotel', response.status);
         }
@@ -338,10 +345,12 @@ const AdminPanel = () => {
       setHotelForm(emptyHotelForm);
     } catch (error) {
       // console.error('Error saving hotel:', error);
+    } finally {
+      setHotelActionLoading(false); // <-- Add
     }
   };
 
-  const handleHotelEdit = (id: number) => {
+  const handleHotelEdit = (id: string | number) => {
     const entry = hotelData.find((item) => item._id === id);
     if (entry) {
       const { _id: _id, ...rest } = entry;
@@ -350,7 +359,8 @@ const AdminPanel = () => {
     }
   };
 
-  const handleHotelDelete = async (id: number) => {
+  const handleHotelDelete = async (id: string | number) => {
+    setHotelDeleteLoadingId(id); // <-- Add
     try {
       const response = await fetch(`/api/hotels/${id}`, {
         method: 'DELETE',
@@ -367,6 +377,8 @@ const AdminPanel = () => {
       }
     } catch (error) {
       // console.error('Error deleting hotel:', error);
+    } finally {
+      setHotelDeleteLoadingId(null); // <-- Add
     }
   };
 
@@ -383,6 +395,7 @@ const AdminPanel = () => {
 
   const handleSeaTripSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSeaTripActionLoading(true); // <-- Add
     try {
       const bodyData = {
         name: seaTripForm.name,
@@ -438,6 +451,8 @@ const AdminPanel = () => {
       setSeaTripForm(emptySeaTripForm);
     } catch (error) {
       // console.error('Error saving sea trip:', error);
+    } finally {
+      setSeaTripActionLoading(false); // <-- Add
     }
   };
 
@@ -451,6 +466,7 @@ const AdminPanel = () => {
   };
 
   const handleSeaTripDelete = async (id: string) => {
+    setSeaTripDeleteLoadingId(id); // <-- Add
     try {
       const response = await fetch(`/api/seaTrips/${id}`, {
         method: 'DELETE',
@@ -467,6 +483,8 @@ const AdminPanel = () => {
       }
     } catch (error) {
       // console.error('Error deleting sea trip:', error);
+    } finally {
+      setSeaTripDeleteLoadingId(null); // <-- Add
     }
   };
 
@@ -483,6 +501,7 @@ const AdminPanel = () => {
 
   const handleSafariTripSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSafariTripActionLoading(true); // <-- Add
     try {
       const bodyData = {
         name: safariTripForm.name,
@@ -537,6 +556,8 @@ const AdminPanel = () => {
       setSafariTripForm(emptySafariTripForm);
     } catch (error) {
       // console.error('Error saving safari trip:', error);
+    } finally {
+      setSafariTripActionLoading(false); // <-- Add
     }
   };
 
@@ -550,6 +571,7 @@ const AdminPanel = () => {
   };
 
   const handleSafariTripDelete = async (id: string) => {
+    setSafariTripDeleteLoadingId(id); // <-- Add
     try {
       const response = await fetch(`/api/safariTrips/${id}`, {
         method: 'DELETE',
@@ -566,6 +588,8 @@ const AdminPanel = () => {
       }
     } catch (error) {
       // console.error('Error deleting safari trip:', error);
+    } finally {
+      setSafariTripDeleteLoadingId(null); // <-- Add
     }
   };
 
@@ -783,8 +807,11 @@ const AdminPanel = () => {
               <button
                 type="submit"
                 className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+                disabled={hotelActionLoading}
               >
-                {hotelEditingId ? 'Update' : 'Add'} Entry
+                {hotelActionLoading
+                  ? (hotelEditingId ? 'Updating...' : 'Adding...')
+                  : hotelEditingId ? 'Update' : 'Add'} Entry
               </button>
               {hotelEditingId && (
                 <button
@@ -873,8 +900,9 @@ const AdminPanel = () => {
                           <button
                             onClick={() => handleHotelDelete(item._id)}
                             className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
+                            disabled={hotelDeleteLoadingId === item._id}
                           >
-                            Delete
+                            {hotelDeleteLoadingId === item._id ? 'Deleting...' : 'Delete'}
                           </button>
                         </td>
                       </tr>
@@ -1041,8 +1069,11 @@ const AdminPanel = () => {
               <button
                 type="submit"
                 className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+                disabled={seaTripActionLoading}
               >
-                {seaTripEditingId ? 'Update' : 'Add'} Trip
+                {seaTripActionLoading
+                  ? (seaTripEditingId ? 'Updating...' : 'Adding...')
+                  : seaTripEditingId ? 'Update' : 'Add'} Trip
               </button>
               {seaTripEditingId && (
                 <button
@@ -1130,8 +1161,9 @@ const AdminPanel = () => {
                           <button
                             onClick={() => handleSeaTripDelete(item._id)}
                             className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
+                            disabled={seaTripDeleteLoadingId === item._id}
                           >
-                            Delete
+                            {seaTripDeleteLoadingId === item._id ? 'Deleting...' : 'Delete'}
                           </button>
                         </td>
                       </tr>
@@ -1280,8 +1312,11 @@ const AdminPanel = () => {
               <button
                 type="submit"
                 className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+                disabled={safariTripActionLoading}
               >
-                {safariTripEditingId ? 'Update' : 'Add'} Trip
+                {safariTripActionLoading
+                  ? (safariTripEditingId ? 'Updating...' : 'Adding...')
+                  : safariTripEditingId ? 'Update' : 'Add'} Trip
               </button>
               {safariTripEditingId && (
                 <button
@@ -1367,8 +1402,9 @@ const AdminPanel = () => {
                           <button
                             onClick={() => handleSafariTripDelete(item._id)}
                             className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
+                            disabled={safariTripDeleteLoadingId === item._id}
                           >
-                            Delete
+                            {safariTripDeleteLoadingId === item._id ? 'Deleting...' : 'Delete'}
                           </button>
                         </td>
                       </tr>
