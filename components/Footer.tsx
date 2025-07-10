@@ -148,34 +148,25 @@ const Footer = () => {
 
             {/* Useful Links */}
             <div>
-              <h3 className="font-semibold mb-4">Useful Links</h3>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li>
-                  <a href="#" className="hover:text-white">
-                    FAQ's
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white">
-                    Privacy Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white">
-                    Term & Conditions
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white">
-                    Support
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white">
-                    Contact
-                  </a>
-                </li>
-              </ul>
+              <h3 className="font-semibold mb-4">Payment Methods</h3>
+              <div className="space-y-2 text-sm text-gray-400">
+                <div className="flex items-center">
+                  <span className=" text-white mr-2">INSTA PAY:</span>
+                  <span>01101515111</span>
+                </div>
+                <div className="flex items-center">
+                  <span className=" text-white mr-2">Vodafone CASH:</span>
+                  <span>01097772505</span>
+                </div>
+                <div className="flex items-center">
+                  <span className=" text-white mr-2">CIB BANK:</span>
+                  <span>100064178797</span>
+                </div>
+                <div className="flex items-center">
+                  <span className=" text-white mr-2">MASIR BANK:</span>
+                  <span>5820001000003646</span>
+                </div>
+              </div>
             </div>
 
             {/* Tour Gallery & Quick Contact */}
@@ -207,7 +198,7 @@ const Footer = () => {
                 </div>
                 <div className="flex items-center">
                   <Mail className="w-4 h-4 mr-2 flex-shrink-0" />
-                  <span>mohamed.salem1467@gmail.com</span>
+                  <span>Myskytravel1@gmail.com</span>
                 </div>
               </div>
             </div>
