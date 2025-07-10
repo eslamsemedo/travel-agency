@@ -43,6 +43,7 @@ type SafariTripEntry = {
   transportation: string;
   video?: string;
   total_price: string;
+  discount?: string;
 };
 
 // Initial data
@@ -80,6 +81,7 @@ const emptySafariTripForm: Omit<SafariTripEntry, '_id'> = {
   transportation: '',
   video: '',
   total_price: '',
+  discount: '',
 };
 
 const AdminPanel = () => {
@@ -397,6 +399,13 @@ const AdminPanel = () => {
     e.preventDefault();
     setSeaTripActionLoading(true); // <-- Add
     try {
+      // Parse values as numbers
+      const price = parseFloat(seaTripForm.price);
+      const discount = parseFloat(seaTripForm.discount);
+      const transportation = parseFloat(seaTripForm.transportation);
+      // Calculate discounted price, then add transportation
+      const discountedPrice = price - (price * discount / 100);
+      const totalPrice = discountedPrice + transportation;
       const bodyData = {
         name: seaTripForm.name,
         description: seaTripForm.description,
@@ -405,7 +414,7 @@ const AdminPanel = () => {
         start_time: seaTripForm.start_time,
         end_time: seaTripForm.end_time,
         transportation: seaTripForm.transportation,
-        total_price: String((parseFloat(seaTripForm.transportation) + parseFloat(seaTripForm.price)) * (1-parseFloat(seaTripForm.discount)/100) + String(seaTripForm.price.split(" ")[1])),
+        total_price: totalPrice.toString(),
         image: seaTripForm.image,
         video: seaTripForm.video || null,
       }
@@ -503,6 +512,13 @@ const AdminPanel = () => {
     e.preventDefault();
     setSafariTripActionLoading(true); // <-- Add
     try {
+      // Parse values as numbers
+      const price = parseFloat(safariTripForm.price);
+      const discount = safariTripForm.discount ? parseFloat(safariTripForm.discount) : 0;
+      const transportation = parseFloat(safariTripForm.transportation);
+      // Calculate discounted price, then add transportation
+      const discountedPrice = price - (price * discount / 100);
+      const totalPrice = discountedPrice + transportation;
       const bodyData = {
         name: safariTripForm.name,
         description: safariTripForm.description,
@@ -510,7 +526,7 @@ const AdminPanel = () => {
         start_time: safariTripForm.start_time,
         end_time: safariTripForm.end_time,
         transportation: safariTripForm.transportation,
-        total_price: String((parseFloat(safariTripForm.transportation) + parseFloat(safariTripForm.price)) + String(safariTripForm.price.split(" ")[1])),
+        total_price: totalPrice.toString(),
         image: safariTripForm.image,
         video: safariTripForm.video || null,
       }
