@@ -59,9 +59,9 @@ const Setup = () => {
                 This will create the first admin account with the following credentials:
               </p>
               <ul className="mt-2 text-sm">
-                <li><strong>Username:</strong> admin</li>
-                <li><strong>Password:</strong> admin123</li>
-                <li><strong>Email:</strong> admin@travelagency.com</li>
+                <li><strong>Username:</strong> Myskytravel</li>
+                <li><strong>Password:</strong> Myskytravel@123</li>
+                <li><strong>Email:</strong> Myskytravel1@gmail.com</li>
                 <li><strong>Role:</strong> super_admin</li>
               </ul>
             </div>

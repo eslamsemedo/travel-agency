@@ -24,12 +24,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Create default admin account
-    const hashedPassword = await bcrypt.hash('admin123', 12);
+    const hashedPassword = await bcrypt.hash('Myskytravel@123', 12);
     
     const admin = new Admin({
-      username: 'admin',
+      username: 'Myskytravel',
       password: hashedPassword,
-      email: 'admin@travelagency.com',
+      email: 'Myskytravel1@gmail.com',
       role: 'super_admin'
     });
 
@@ -43,8 +43,8 @@ export async function POST(request: NextRequest) {
         role: admin.role
       },
       credentials: {
-        username: 'admin',
-        password: 'admin123'
+        username: 'Myskytravel',
+        password: 'Myskytravel@123'
       }
     }, { status: 201 });
 
