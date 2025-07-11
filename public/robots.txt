@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://mysky-travel.com/api/sitemap
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /setup/
+
+# Allow important pages
+Allow: /
+Allow: /hotels/
+Allow: /safariTrips/
+Allow: /seaTrips/
+Allow: /bookings/
+
+# Crawl delay (optional)
+Crawl-delay: 1 

@@ -24,13 +24,13 @@ const Header = () => {
   };
 
   const navigationItems = [
-    { label: "Home", id: "hero" },
-    { label: "Destinations", id: "places" },
-    { label: "About", id: "service" },
-    { label: "Trips", id: "trips" },
-    { label: "Why Us", id: "special" },
-    { label: "Reviews", id: "reviews" },
-    { label: "Contact", id: "footer" },
+    { label: "Home", id: "hero", href: "/" },
+    { label: "Destinations", id: "places", href: "/#destinations" },
+    { label: "About", id: "service", href: "/#about" },
+    { label: "Trips", id: "trips", href: "/#trips" },
+    { label: "Why Us", id: "special", href: "/#why-us" },
+    { label: "Reviews", id: "reviews", href: "/#reviews" },
+    { label: "Contact", id: "footer", href: "/#contact" },
   ];
 
   return (
@@ -65,12 +65,11 @@ const Header = () => {
           <div className="flex items-center gap-4 overflow-hidden">
             <div className="w-[60px] h-[60px] rounded-full bg-orange-400 flex items-center justify-center text-white">
               <Image
-
                 src={"/imgs/logo4.png"} // Replace with your logo path
                 alt="Logo"
-                width={100}
-                height={100}
-                className="object-cover scale-125"
+                width={75}
+                height={75}
+                className="object-cover"
               />
             </div>
             <span className="text-2xl font-bold">
@@ -80,20 +79,25 @@ const Header = () => {
           {/* 1135 */}
           {/* Nav Links */}
         </div>
-        <div className="flex items-center gap-6">
-
+        <nav className="flex items-center gap-6" aria-label="Main navigation">
           <ul className="max-[1135px]:hidden flex items-center gap-6 text-black font-medium">
             {navigationItems.map((item, index) => (
-              <li
-                key={index}
-                className="cursor-pointer flex items-center gap-2 hover:text-orange-400 transition-colors duration-200"
-                onClick={() => scrollToSection(item.id)}
-              >
-                {item.label}
+              <li key={index}>
+                <a
+                  href={item.href}
+                  className="cursor-pointer flex items-center gap-2 hover:text-orange-400 transition-colors duration-200"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection(item.id);
+                  }}
+                  aria-label={`Navigate to ${item.label} section`}
+                >
+                  {item.label}
+                </a>
               </li>
             ))}
           </ul>
-        </div>
+        </nav>
 
         {/* Right - Contact, Cart, Search, Button */}
         <div className="flex items-center gap-6 h-full">
@@ -156,9 +160,9 @@ const Header = () => {
                 <Image
                   src={"/imgs/logo4.png"}
                   alt="Logo"
-                  width={40}
-                  height={40}
-                  className="object-cover scale-125"
+                  width={48}
+                  height={48}
+                  className="object-cover"
                 />
               </div>
               <span className="text-xl font-bold">
@@ -175,25 +179,31 @@ const Header = () => {
           </div>
 
           {/* Navigation Links */}
-          <div className="flex-1">
+          <nav className="flex-1" aria-label="Mobile navigation">
             <h3 className="text-lg font-semibold text-gray-800 mb-6">Menu</h3>
             <ul className="space-y-4">
               {navigationItems.map((item, index) => (
-                <li
-                  key={index}
-                  className="cursor-pointer group"
-                  onClick={() => scrollToSection(item.id)}
-                >
-                  <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-orange-50 transition-all duration-200 group-hover:translate-x-2">
-                    <div className="w-2 h-2 rounded-full bg-orange-400 group-hover:scale-125 transition-transform duration-200"></div>
-                    <span className="text-lg font-medium text-gray-700 group-hover:text-orange-500 transition-colors duration-200">
-                      {item.label}
-                    </span>
-                  </div>
+                <li key={index}>
+                  <a
+                    href={item.href}
+                    className="cursor-pointer group block"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(item.id);
+                    }}
+                    aria-label={`Navigate to ${item.label} section`}
+                  >
+                    <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-orange-50 transition-all duration-200 group-hover:translate-x-2">
+                      <div className="w-2 h-2 rounded-full bg-orange-400 group-hover:scale-125 transition-transform duration-200"></div>
+                      <span className="text-lg font-medium text-gray-700 group-hover:text-orange-500 transition-colors duration-200">
+                        {item.label}
+                      </span>
+                    </div>
+                  </a>
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
           
         </div>

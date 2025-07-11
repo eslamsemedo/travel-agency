@@ -10,17 +10,32 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <>
+    <main>
       <Header />
-      <Hero />
-      <Places />
-      <Service />
-      <Trips />
-      <Special />
-      <Awards />
-      <Reviews />
-      <Footer />
-      {/* Uncomment the line above to include the Special component */}
-    </>
+      <section id="hero">
+        <Hero />
+      </section>
+      <section id="places" aria-label="Destinations">
+        <Places />
+      </section>
+      <section id="service" aria-label="About our services">
+        <Service />
+      </section>
+      <section id="trips" aria-label="Our trips">
+        <Trips />
+      </section>
+      <section id="special" aria-label="Why choose us">
+        <Special />
+      </section>
+      <section id="awards" aria-label="Awards and recognition">
+        <Awards />
+      </section>
+      <section id="reviews" aria-label="Customer reviews">
+        <Reviews />
+      </section>
+      <footer id="footer">
+        <Footer />
+      </footer>
+    </main>
   );
 }
