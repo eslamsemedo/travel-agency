@@ -101,12 +101,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geist.variable} ${geistMono.variable}`}>
       <head>
-        <link rel="icon" href="/imgs/logo4.png" />
-        <link rel="apple-touch-icon" href="/imgs/logo4.png" />
+
+        <link rel="icon" href="/imgs/logo4.png" type="image/png"/>
+        <link rel="apple-touch-icon" href="/imgs/logo4.png" type="image/png"/>
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#2563eb" />
         <meta name="msapplication-TileColor" content="#2563eb" />
-        
+
         {/* Structured Data */}
         <script
           type="application/ld+json"
@@ -133,7 +134,7 @@ export default function RootLayout({
               "priceRange": "$$",
               "serviceType": [
                 "Safari Trips",
-                "Sea Adventures", 
+                "Sea Adventures",
                 "Hotel Bookings",
                 "Guided Tours",
                 "Vacation Packages"
@@ -154,7 +155,7 @@ export default function RootLayout({
                     }
                   },
                   {
-                    "@type": "Offer", 
+                    "@type": "Offer",
                     "itemOffered": {
                       "@type": "Service",
                       "name": "Sea Adventures"
@@ -163,7 +164,7 @@ export default function RootLayout({
                   {
                     "@type": "Offer",
                     "itemOffered": {
-                      "@type": "Service", 
+                      "@type": "Service",
                       "name": "Hotel Bookings"
                     }
                   }
